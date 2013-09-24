@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="camel-resouce-adapter">
+        <wb-resource deploy-path="/" source-path="/src/main/rar" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/resources"/>
+        <dependent-module archiveName="camel-resource-adapter-jca-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/camel-resource-adapter-jca/camel-resource-adapter-jca">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/camel-resouce-adapter/target/classes"/>
+    </wb-module>
+</project-modules>
