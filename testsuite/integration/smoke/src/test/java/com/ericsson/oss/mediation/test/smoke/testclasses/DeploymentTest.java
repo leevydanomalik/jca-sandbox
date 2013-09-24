@@ -16,7 +16,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -52,7 +51,6 @@ public class DeploymentTest {
 	 * Start executing tests
 	 */
 
-	@Ignore
 	@Test
 	@InSequence(1)
 	@OperateOnDeployment("camel-engine-rar")
@@ -60,7 +58,6 @@ public class DeploymentTest {
 		this.deployer.deploy("camel-engine-rar");
 	}
 
-	@Ignore
 	@Test
 	@InSequence(2)
 	@OperateOnDeployment("camel-engine-rar")
