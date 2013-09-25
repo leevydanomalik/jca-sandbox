@@ -21,6 +21,8 @@
  */
 package com.ericsson.oss.mediation.camel.ra;
 
+import javax.resource.ResourceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,9 +71,7 @@ public class DataFlowImpl implements DataFlow {
 	 * )
 	 */
 	@Override
-	public void processInput(String testInput) {
-		log.debug("called with {}", testInput);
-
+	public void processInput(String testInput) throws ResourceException {
+		log.debug("<----------- called with {} -------------->", testInput);
 	}
-
 }

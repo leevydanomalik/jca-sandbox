@@ -21,6 +21,8 @@
  */
 package com.ericsson.oss.mediation.camel.ra;
 
+import javax.resource.ResourceException;
+
 /**
  * DataFlow
  * 
@@ -28,7 +30,7 @@ package com.ericsson.oss.mediation.camel.ra;
  */
 public interface DataFlow {
 
-	public void processInput(final String testInput);
+	public void processInput(final String testInput) throws ResourceException;
 
 	/**
 	 * Close

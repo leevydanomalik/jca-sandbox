@@ -18,7 +18,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import com.ericsson.oss.mediation.test.IntegrationTestDeploymentFactory;
 import com.ericsson.oss.mediation.test.smoke.deployment.mock.InjectionTestEJB;
 import com.ericsson.oss.mediation.test.smoke.deployment.mock.InjectionTestEJBImpl;
-import com.ericsson.oss.mediation.test.smoke.testclasses.EjbInjectionTest;
+import com.ericsson.oss.mediation.test.smoke.testclasses.CommitTransactionTest;
 
 public class SmokeTestDeploymentFactory extends
 		IntegrationTestDeploymentFactory {
@@ -33,7 +33,7 @@ public class SmokeTestDeploymentFactory extends
 		final WebArchive war = createWarDeployment("EjbInjectionTest.war");
 		war.addClass(InjectionTestEJBImpl.class);
 		war.addClass(InjectionTestEJB.class);
-		war.addClass(EjbInjectionTest.class);
+		war.addClass(CommitTransactionTest.class);
 		war.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 		war.addAsManifestResource("rar-module-manifest.mf", "MANIFEST.MF");
 		return war;

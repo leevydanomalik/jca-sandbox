@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 @ConnectionDefinition(connectionFactory = DataFlowContextFactory.class, connectionFactoryImpl = CamelContextFactoryImpl.class, connection = DataFlow.class, connectionImpl = DataFlowImpl.class)
 public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
-		ResourceAdapterAssociation, TransactionSupport {
+		ResourceAdapterAssociation {
 
 	/** The serial version UID */
 	private static final long serialVersionUID = 1L;
@@ -54,34 +54,11 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	/** The logwriter */
 	private PrintWriter logwriter;
 
-	/** someMCFProperty */
-	@ConfigProperty(defaultValue = "true")
-	private boolean xa;
-
 	/**
 	 * Default constructor
 	 */
 	public CamelManagedConnectionFactory() {
 		this.logwriter = new PrintWriter(System.out);
-	}
-
-	/**
-	 * Set someMCFProperty
-	 * 
-	 * @param someMCFProperty
-	 *            The value
-	 */
-	public void setXa(final boolean xa) {
-		this.xa = xa;
-	}
-
-	/**
-	 * Get someMCFProperty
-	 * 
-	 * @return The value
-	 */
-	public boolean isXa() {
-		return xa || ra.isXa();
 	}
 
 	/**
@@ -158,7 +135,9 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 		while (result == null && it.hasNext()) {
 			ManagedConnection mc = (ManagedConnection) it.next();
 			if (mc instanceof CamelManagedConnection) {
-				result = mc;
+				if (((CamelManagedConnection) mc).getFlow() != null) {
+					result = mc;
+				}
 			}
 
 		}
@@ -211,56 +190,44 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 		this.ra = (CamelResourceAdapter) ra;
 	}
 
-	/**
-	 * Returns a hash code value for the object.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return A hash code value for this object.
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		int result = 17;
-		result += 31 * result + 7;
-		return result;
-	}
-
-	/**
-	 * Indicates whether some other object is equal to this one.
-	 * 
-	 * @param other
-	 *            The reference object with which to compare.
-	 * @return true if this object is the same as the obj argument, false
-	 *         otherwise.
-	 */
-	@Override
-	public boolean equals(Object other) {
-		if (other == null)
-			return false;
-		if (other == this)
-			return true;
-		if (!(other instanceof CamelManagedConnectionFactory))
-			return false;
-		boolean result = true;
-		CamelManagedConnectionFactory obj = (CamelManagedConnectionFactory) other;
-		if (result) {
-			result = xa == obj.isXa();
-		}
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ra == null) ? 0 : ra.hashCode());
 		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.resource.spi.TransactionSupport#getTransactionSupport()
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public TransactionSupportLevel getTransactionSupport() {
-
-		if (isXa()) {
-			return TransactionSupportLevel.XATransaction;
-		} else {
-			return TransactionSupportLevel.LocalTransaction;
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
 		}
-
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		CamelManagedConnectionFactory other = (CamelManagedConnectionFactory) obj;
+		if (ra == null) {
+			if (other.ra != null) {
+				return false;
+			}
+		} else if (!ra.equals(other.ra)) {
+			return false;
+		}
+		return true;
 	}
 
 }

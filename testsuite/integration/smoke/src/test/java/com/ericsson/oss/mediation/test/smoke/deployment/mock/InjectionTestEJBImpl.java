@@ -30,18 +30,49 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 	@Resource(lookup = "java:/eis/CamelContextFactory")
 	private DataFlowContextFactory dfContext;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void invokeRarMethodUnderLocalTransaction() {
-		log.debug("Called invokeRarMethodUnderLocalTransaction() method");
-		System.out
-				.println("<------------------Called invokeRarMethodUnderLocalTransaction() method--------------->");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ericsson.oss.mediation.test.smoke.deployment.mock.InjectionTestEJB
+	 * #invokeRarMethodUnderTransaction()
+	 */
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void invokeRarMethodUnderTransaction() {
+		log.trace("<------------------Called invokeRarMethodUnderTransaction() method--------------->");
 		try {
 			DataFlow flow = dfContext.getDataFlowImplementation();
-			flow.processInput("someTestInput");
+			flow.processInput("Good input");
 			flow.close();
-			log.debug("Exiting invokeRarMethodUnderLocalTransaction() method");
+			log.trace("Exiting invokeRarMethodUnderTransaction() method");
 		} catch (ResourceException re) {
 			log.error("Caught exception during flow invocation test:", re);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ericsson.oss.mediation.test.smoke.deployment.mock.InjectionTestEJB
+	 * #invokeRarMethodCauseRollback()
+	 */
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void invokeRarMethodCauseRollback() {
+
+		DataFlow flow = null;
+		log.trace("<------------------Called invokeRarMethodCauseRollback() method--------------->");
+		try {
+			flow = dfContext.getDataFlowImplementation();
+			flow.processInput("bad input");
+			log.trace("Exiting invokeRarMethodCauseRollback() method");
+		} catch (ResourceException re) {
+			log.error("Caught exception during flow invocation test:", re);
+
+		}
+		throw new RuntimeException("Rollback transaction please...");
+
 	}
 }

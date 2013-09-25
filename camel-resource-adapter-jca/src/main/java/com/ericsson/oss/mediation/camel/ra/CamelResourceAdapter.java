@@ -24,6 +24,7 @@ package com.ericsson.oss.mediation.camel.ra;
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
+import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
 
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @version $Revision: $
  */
-@Connector(reauthenticationSupport = false, transactionSupport = TransactionSupport.TransactionSupportLevel.XATransaction)
+@Connector(reauthenticationSupport = false, transactionSupport = TransactionSupport.TransactionSupportLevel.XATransaction, vendorName = "Ericsson", version = "0.0.1-SNAPSHOT", licenseRequired = false)
 public class CamelResourceAdapter implements ResourceAdapter,
 		java.io.Serializable {
 
@@ -45,30 +46,15 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	private static Logger log = LoggerFactory
 			.getLogger(CamelResourceAdapter.class.getName());
 
-	/** xa */
-	@ConfigProperty(defaultValue = "true")
-	private boolean xa;
+	private TransactionSynchronizationRegistry txRegistry;
+
+	private XATerminator xaTerminator;
 
 	/**
 	 * Default constructor
 	 */
 	public CamelResourceAdapter() {
 
-	}
-
-	/**
-	 * @return the enableXA
-	 */
-	public Boolean isXa() {
-		return xa;
-	}
-
-	/**
-	 * @param enableXA
-	 *            the enableXA to set
-	 */
-	public void setXa(final boolean xa) {
-		this.xa = xa;
 	}
 
 	/**
@@ -113,7 +99,8 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	public void start(BootstrapContext ctx)
 			throws ResourceAdapterInternalException {
 		log.trace("start({})", ctx);
-
+		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
+		this.xaTerminator = ctx.getXATerminator();
 	}
 
 	/**
@@ -138,6 +125,20 @@ public class CamelResourceAdapter implements ResourceAdapter,
 			throws ResourceException {
 		log.trace("getXAResources({})", specs.toString());
 		return null;
+	}
+
+	/**
+	 * @return the txRegistry
+	 */
+	public TransactionSynchronizationRegistry getTxRegistry() {
+		return txRegistry;
+	}
+
+	/**
+	 * @return the xaTerminator
+	 */
+	public XATerminator getXaTerminator() {
+		return xaTerminator;
 	}
 
 	/**
@@ -172,10 +173,6 @@ public class CamelResourceAdapter implements ResourceAdapter,
 			return false;
 		}
 		boolean result = true;
-		final CamelResourceAdapter obj = (CamelResourceAdapter) other;
-		if (result) {
-			result = xa == obj.isXa();
-		}
 		return result;
 	}
 

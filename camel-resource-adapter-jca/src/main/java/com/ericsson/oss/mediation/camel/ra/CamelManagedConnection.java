@@ -37,14 +37,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @version $Revision: $
  */
-public class CamelManagedConnection implements ManagedConnection, XAResource,
-		LocalTransaction {
+public class CamelManagedConnection implements ManagedConnection, XAResource {
 
 	/** The logger */
 	private static Logger log = LoggerFactory
 			.getLogger(CamelManagedConnection.class);
 
-	/** The logwriter */
 	private PrintWriter logwriter;
 
 	/** ManagedConnectionFactory */
@@ -54,9 +52,9 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	private List<ConnectionEventListener> listeners;
 
 	/** Connection */
-	private DataFlowImpl connection;
+	private DataFlowImpl flow;
 
-	private int timeout;
+	private int txTimeout;
 
 	/**
 	 * Default constructor
@@ -70,47 +68,47 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 		this.logwriter = null;
 		this.listeners = Collections
 				.synchronizedList(new ArrayList<ConnectionEventListener>(1));
-		this.connection = null;
+		this.flow = null;
 	}
 
 	/**
-	 * Creates a new connection handle for the underlying physical connection
-	 * represented by the ManagedConnection instance.
+	 * Creates a new flow handle for the underlying physical flow represented by
+	 * the ManagedConnection instance.
 	 * 
 	 * @param subject
 	 *            Security context as JAAS subject
 	 * @param cxRequestInfo
 	 *            ConnectionRequestInfo instance
-	 * @return generic Object instance representing the connection handle.
+	 * @return generic Object instance representing the flow handle.
 	 * @throws ResourceException
 	 *             generic exception if operation fails
 	 */
 	public Object getConnection(Subject subject,
 			ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 		log.trace("getConnection()");
-		connection = new DataFlowImpl(this, mcf);
-		return connection;
+		flow = new DataFlowImpl(this, mcf);
+		return flow;
 	}
 
 	/**
 	 * Used by the container to change the association of an application-level
-	 * connection handle with a ManagedConneciton instance.
+	 * flow handle with a ManagedConneciton instance.
 	 * 
-	 * @param connection
-	 *            Application-level connection handle
+	 * @param flow
+	 *            Application-level flow handle
 	 * @throws ResourceException
 	 *             generic exception if operation fails
 	 */
-	public void associateConnection(Object connection) throws ResourceException {
-		log.trace("associateConnection({})", connection);
+	public void associateConnection(Object flow) throws ResourceException {
+		log.trace("associateConnection({})", flow);
 
-		if (connection == null)
-			throw new ResourceException("Null connection handle");
+		if (flow == null)
+			throw new ResourceException("Null flow handle");
 
-		if (!(connection instanceof DataFlowImpl))
-			throw new ResourceException("Wrong connection handle");
+		if (!(flow instanceof DataFlowImpl))
+			throw new ResourceException("Wrong flow handle");
 
-		this.connection = (DataFlowImpl) connection;
+		this.flow = (DataFlowImpl) flow;
 	}
 
 	/**
@@ -122,23 +120,24 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	public void cleanup() throws ResourceException {
 		log.trace("cleanup()");
+		this.flow = null;
 
 	}
 
 	/**
-	 * Destroys the physical connection to the underlying resource manager.
+	 * Destroys the physical flow to the underlying resource manager.
 	 * 
 	 * @throws ResourceException
 	 *             generic exception if operation fails
 	 */
 	public void destroy() throws ResourceException {
 		log.trace("destroy()");
-		this.connection = null;
+		this.flow = null;
 
 	}
 
 	/**
-	 * Adds a connection event listener to the ManagedConnection instance.
+	 * Adds a flow event listener to the ManagedConnection instance.
 	 * 
 	 * @param listener
 	 *            A new ConnectionEventListener to be registered
@@ -151,11 +150,11 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	}
 
 	/**
-	 * Removes an already registered connection event listener from the
+	 * Removes an already registered flow event listener from the
 	 * ManagedConnection instance.
 	 * 
 	 * @param listener
-	 *            already registered connection event listener to be removed
+	 *            already registered flow event listener to be removed
 	 */
 	public void removeConnectionEventListener(ConnectionEventListener listener) {
 		log.trace("removeConnectionEventListener({})", listener);
@@ -207,32 +206,8 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	}
 
 	/**
-	 * Returns an <code>javax.resource.spi.LocalTransaction</code> instance.
-	 * 
-	 * @return LocalTransaction instance
-	 * @throws ResourceException
-	 *             generic exception if operation fails
-	 */
-	public LocalTransaction getLocalTransaction() throws ResourceException {
-		log.trace("getLocalTransaction()");
-		return this;
-	}
-
-	/**
-	 * Returns an <code>javax.transaction.xa.XAresource</code> instance.
-	 * 
-	 * @return XAResource instance
-	 * @throws ResourceException
-	 *             generic exception if operation fails
-	 */
-	public XAResource getXAResource() throws ResourceException {
-		log.trace("getXAResource()");
-		return this;
-	}
-
-	/**
-	 * Gets the metadata information for this connection's underlying EIS
-	 * resource manager instance.
+	 * Gets the metadata information for this flow's underlying EIS resource
+	 * manager instance.
 	 * 
 	 * @return ManagedConnectionMetaData instance
 	 * @throws ResourceException
@@ -243,61 +218,26 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 		return new CamelManagedConnectionMetaData();
 	}
 
-	private void fireRollbackEvent() {
-		final ConnectionEvent event = new ConnectionEvent(this,
-				ConnectionEvent.LOCAL_TRANSACTION_ROLLEDBACK);
-		for (ConnectionEventListener cel : listeners) {
-			cel.connectionClosed(event);
-		}
+	/**
+	 * @return the flow
+	 */
+	public DataFlowImpl getFlow() {
+		return flow;
 	}
 
-	private void fireCommitEvent() {
-		final ConnectionEvent event = new ConnectionEvent(this,
-				ConnectionEvent.LOCAL_TRANSACTION_COMMITTED);
-		for (ConnectionEventListener cel : listeners) {
-			cel.connectionClosed(event);
-		}
-	}
-
-	private void fireBeginEvent() {
-		final ConnectionEvent event = new ConnectionEvent(this,
-				ConnectionEvent.LOCAL_TRANSACTION_STARTED);
-		for (ConnectionEventListener cel : listeners) {
-			cel.connectionClosed(event);
-		}
+	private CamelResourceAdapter getResourceAdapter() {
+		return (CamelResourceAdapter) this.mcf.getResourceAdapter();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.resource.spi.LocalTransaction#begin()
+	 * @see javax.resource.spi.ManagedConnection#getXAResource()
 	 */
 	@Override
-	public void begin() throws ResourceException {
-		fireBeginEvent();
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.resource.spi.LocalTransaction#commit()
-	 */
-	@Override
-	public void commit() throws ResourceException {
-		fireCommitEvent();
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.resource.spi.LocalTransaction#rollback()
-	 */
-	@Override
-	public void rollback() throws ResourceException {
-		fireRollbackEvent();
-
+	public XAResource getXAResource() throws ResourceException {
+		log.trace("getXAResource called, returning {}", (XAResource) this);
+		return this;
 	}
 
 	/*
@@ -308,7 +248,8 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public void commit(Xid xid, boolean onePhase) throws XAException {
-		log.debug("Commit called for xid={}, and onePhase={}", xid, onePhase);
+		log.trace("commit called with xid=[{}] and onePhase=[{}]",
+				new Object[] { xid, onePhase });
 
 	}
 
@@ -319,7 +260,8 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public void end(Xid xid, int flags) throws XAException {
-
+		log.trace("End called with xid=[{}] and flag[{}]", new Object[] { xid,
+				flags });
 	}
 
 	/*
@@ -329,7 +271,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public void forget(Xid xid) throws XAException {
-		// TODO Auto-generated method stub
+		log.trace("Forget called with xid=[{}]", xid);
 
 	}
 
@@ -340,7 +282,9 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public int getTransactionTimeout() throws XAException {
-		return this.timeout;
+		log.trace("getTransactionTimeout called and returning {}",
+				this.txTimeout);
+		return this.txTimeout;
 	}
 
 	/*
@@ -351,8 +295,10 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public boolean isSameRM(XAResource xares) throws XAException {
-
-		return this.equals(xares);
+		final boolean result = this.equals(xares);
+		log.trace("isSameRM called with xares=[{}] and is returning {}",
+				new Object[] { xares, result });
+		return result;
 	}
 
 	/*
@@ -362,8 +308,8 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public int prepare(Xid xid) throws XAException {
-		// TODO Auto-generated method stub
-		return 0;
+		log.trace("prepare called with xid=[{}]", xid);
+		return XA_OK;
 	}
 
 	/*
@@ -373,7 +319,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public Xid[] recover(int flag) throws XAException {
-		// TODO Auto-generated method stub
+		log.trace("recover called with flag=[{}] and returning null", flag);
 		return null;
 	}
 
@@ -384,7 +330,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public void rollback(Xid xid) throws XAException {
-		// TODO Auto-generated method stub
+		log.trace("rollback called for xid=[{}]", xid);
 
 	}
 
@@ -394,9 +340,10 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 * @see javax.transaction.xa.XAResource#setTransactionTimeout(int)
 	 */
 	@Override
-	public boolean setTransactionTimeout(int seconds) throws XAException {
-		this.timeout = seconds;
-		return false;
+	public boolean setTransactionTimeout(final int seconds) throws XAException {
+		log.trace("setTransactionTimeout called with seconds=[{}]", seconds);
+		this.txTimeout = seconds;
+		return true;
 	}
 
 	/*
@@ -406,7 +353,20 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	@Override
 	public void start(Xid xid, int flags) throws XAException {
+		log.trace("start called for xid=[{}] and flags=[{}]", new Object[] {
+				xid, flags });
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.resource.spi.ManagedConnection#getLocalTransaction()
+	 */
+	@Override
+	public LocalTransaction getLocalTransaction() throws ResourceException {
+		log.trace("getLocalTransaction called, returning null");
+		return null;
 	}
 
 }

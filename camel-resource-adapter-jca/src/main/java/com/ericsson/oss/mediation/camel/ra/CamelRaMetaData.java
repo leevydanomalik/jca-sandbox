@@ -125,7 +125,7 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 */
 	@Override
 	public boolean supportsLocalTransactionDemarcation() {
-		return true; // TODO
+		return false;
 	}
 
 }

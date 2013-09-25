@@ -16,7 +16,7 @@
 		<jboss.home>target/jboss-eap-${jboss.version}</jboss.home>
 	</properties>
 
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.ericsson.oss.mediation</groupId>
@@ -54,7 +54,31 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-transaction-jta</artifactId>
+			<version>1.0.0.Alpha3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-transaction-api</artifactId>
+			<version>1.0.0.Alpha3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-transaction-spi</artifactId>
+			<version>1.0.0.Alpha3</version>
+			<scope>test</scope>
+		</dependency>
 		
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-transaction-impl-base</artifactId>
+			<version>1.0.0.Alpha3</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>

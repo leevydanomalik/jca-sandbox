@@ -16,5 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface InjectionTestEJB {
 
-	public void invokeRarMethodUnderLocalTransaction();
+	void invokeRarMethodUnderTransaction();
+
+	void invokeRarMethodCauseRollback();
 }

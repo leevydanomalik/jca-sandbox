@@ -26,10 +26,13 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.ironjacamar.org/doc/schema 
              http://www.ironjacamar.org/doc/schema/ironjacamar_1_1.xsd">
-  <config-property name="xa">true</config-property>
   <transaction-support>XATransaction</transaction-support>
   <connection-definitions>
     <connection-definition class-name="com.ericsson.oss.mediation.camel.ra.CamelManagedConnectionFactory" jndi-name="java:/eis/CamelContextFactory" pool-name="CamelContextFactory">
+    <xa-pool>
+    <max-pool-size>20</max-pool-size>
+    <wrap-xa-resource>true</wrap-xa-resource>
+    </xa-pool>
       <recovery>
         <recover-credential>
           <user-name>user</user-name>

@@ -56,7 +56,7 @@ public class CamelManagedConnectionMetaData implements
 	@Override
 	public String getEISProductName() throws ResourceException {
 		log.trace("getEISProductName()");
-		return null; // TODO
+		return "Apache Camel";
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class CamelManagedConnectionMetaData implements
 	@Override
 	public String getEISProductVersion() throws ResourceException {
 		log.trace("getEISProductVersion()");
-		return null; // TODO
+		return "2.9.0";
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class CamelManagedConnectionMetaData implements
 	@Override
 	public int getMaxConnections() throws ResourceException {
 		log.trace("getMaxConnections()");
-		return 0; // TODO
+		return 20;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class CamelManagedConnectionMetaData implements
 	@Override
 	public String getUserName() throws ResourceException {
 		log.trace("getUserName()");
-		return null; // TODO
+		return "camel";
 	}
 
 }
