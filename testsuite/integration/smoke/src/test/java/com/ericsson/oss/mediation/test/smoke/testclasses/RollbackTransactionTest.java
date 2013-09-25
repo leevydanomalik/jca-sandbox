@@ -18,6 +18,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class RollbackTransactionTest {
 	@OperateOnDeployment("camel-engine-rar-deployment-rollback")
 	public void testDeployRar() throws Exception {
 		log.info("<-----------Rollback transaction test case, deploy rar-------------->");
-		this.deployer.deploy("camel-engine-rar-deployment");
+		this.deployer.deploy("camel-engine-rar-deployment-rollback");
 	}
 
 	@Test
@@ -103,6 +104,7 @@ public class RollbackTransactionTest {
 		this.injectedEjb.invokeRarMethodCauseRollback();
 	}
 
+	@Ignore
 	@Test
 	@InSequence(4)
 	@OperateOnDeployment("war-with-ejb-rollback")
@@ -111,6 +113,7 @@ public class RollbackTransactionTest {
 		this.deployer.undeploy("war-with-ejb-rollback");
 	}
 
+	@Ignore
 	@Test
 	@InSequence(5)
 	@OperateOnDeployment("camel-engine-rar-deployment-rollback")

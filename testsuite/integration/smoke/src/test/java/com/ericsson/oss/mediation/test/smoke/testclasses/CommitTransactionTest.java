@@ -18,6 +18,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -103,6 +104,7 @@ public class CommitTransactionTest {
 		this.injectedEjb.invokeRarMethodUnderTransaction();
 	}
 
+	@Ignore
 	@Test
 	@InSequence(4)
 	@OperateOnDeployment("war-with-ejb-commit")
@@ -111,6 +113,7 @@ public class CommitTransactionTest {
 		this.deployer.undeploy("war-with-ejb-commit");
 	}
 
+	@Ignore
 	@Test
 	@InSequence(5)
 	@OperateOnDeployment("camel-engine-rar-deployment-commit")
