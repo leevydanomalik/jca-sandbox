@@ -1,1 +1,1 @@
-Dependencies: com.ericsson.oss.mediation.camel.ra.api
+Dependencies: com.sample.edejket.camel.ra.api

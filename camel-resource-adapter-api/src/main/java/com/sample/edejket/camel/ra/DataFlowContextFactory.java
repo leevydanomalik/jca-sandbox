@@ -1,4 +1,3 @@
-<!--
 /*
  * IronJacamar, a Java EE Connector Architecture implementation
  * Copyright 2013, Red Hat Inc, and individual contributors
@@ -20,12 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
--->
+package com.sample.edejket.camel.ra;
 
-<deployment>
-  <bean name="Camel" interface="com.sample.edejket.camel.ra.mbean.CamelMBean" class="com.ericsson.oss.mediation.camel.ra.mbean.CamelMBeanImpl">
-    <property name="MBeanServer">
-        <inject bean="Kernel" property="MBeanServer"/>
-    </property>
-  </bean>
-</deployment>
+import java.io.Serializable;
+
+import javax.resource.Referenceable;
+import javax.resource.ResourceException;
+
+/**
+ * CamelContextFactory
+ * 
+ * @version $Revision: $
+ */
+public interface DataFlowContextFactory extends Serializable, Referenceable {
+	/**
+	 * Get connection from factory
+	 * 
+	 * @return DataFlow instance
+	 * @exception ResourceException
+	 *                Thrown if a connection can't be obtained
+	 */
+	public DataFlow getDataFlowImplementation() throws ResourceException;
+
+}

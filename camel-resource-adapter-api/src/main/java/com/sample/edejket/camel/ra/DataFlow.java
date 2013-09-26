@@ -1,4 +1,3 @@
-<!--
 /*
  * IronJacamar, a Java EE Connector Architecture implementation
  * Copyright 2013, Red Hat Inc, and individual contributors
@@ -20,12 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
--->
+package com.sample.edejket.camel.ra;
 
-<deployment>
-  <bean name="Camel" interface="com.sample.edejket.camel.ra.mbean.CamelMBean" class="com.ericsson.oss.mediation.camel.ra.mbean.CamelMBeanImpl">
-    <property name="MBeanServer">
-        <inject bean="Kernel" property="MBeanServer"/>
-    </property>
-  </bean>
-</deployment>
+import javax.resource.ResourceException;
+
+/**
+ * DataFlow
+ * 
+ * @version $Revision: $
+ */
+public interface DataFlow {
+
+	public void processInput(final String testInput) throws ResourceException;
+
+	/**
+	 * Close
+	 */
+	public void close();
+}

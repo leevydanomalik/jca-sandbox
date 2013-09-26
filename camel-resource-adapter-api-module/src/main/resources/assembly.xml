@@ -10,7 +10,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>target/module-jars</directory>
-			<outputDirectory>/com/ericsson/oss/mediation/camel/ra/api/main</outputDirectory>
+			<outputDirectory>/com/sample/edejket/camel/ra/api/main</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

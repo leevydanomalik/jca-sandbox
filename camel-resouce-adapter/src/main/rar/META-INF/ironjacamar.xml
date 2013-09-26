@@ -28,7 +28,7 @@
              http://www.ironjacamar.org/doc/schema/ironjacamar_1_1.xsd">
   <transaction-support>XATransaction</transaction-support>
   <connection-definitions>
-    <connection-definition class-name="com.ericsson.oss.mediation.camel.ra.CamelManagedConnectionFactory" jndi-name="java:/eis/CamelContextFactory" pool-name="CamelContextFactory">
+    <connection-definition class-name="com.sample.edejket.camel.ra.CamelManagedConnectionFactory" jndi-name="java:/eis/CamelContextFactory" pool-name="CamelContextFactory">
     <xa-pool>
     <max-pool-size>20</max-pool-size>
     <wrap-xa-resource>true</wrap-xa-resource>
@@ -43,7 +43,7 @@
   </connection-definitions>
 
   <admin-objects>
-    <admin-object class-name="com.ericsson.oss.mediation.camel.ra.CamelAdminObjectImpl" jndi-name="java:/eis/ao/CamelAdminObject">
+    <admin-object class-name="com.sample.edejket.camel.ra.CamelAdminObjectImpl" jndi-name="java:/eis/ao/CamelAdminObject">
       <config-property name="someAdminObjProperty">abcde</config-property>
     </admin-object>
   </admin-objects>

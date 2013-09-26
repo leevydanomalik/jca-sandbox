@@ -1,4 +1,3 @@
-<!--
 /*
  * IronJacamar, a Java EE Connector Architecture implementation
  * Copyright 2013, Red Hat Inc, and individual contributors
@@ -20,12 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
--->
+package com.sample.edejket.camel.ra;
 
-<deployment>
-  <bean name="Camel" interface="com.sample.edejket.camel.ra.mbean.CamelMBean" class="com.ericsson.oss.mediation.camel.ra.mbean.CamelMBeanImpl">
-    <property name="MBeanServer">
-        <inject bean="Kernel" property="MBeanServer"/>
-    </property>
-  </bean>
-</deployment>
+import java.io.Serializable;
+
+import javax.resource.Referenceable;
+
+/**
+ * CamelAdminObject
+ *
+ * @version $Revision: $
+ */
+public interface CamelAdminObject extends Referenceable, Serializable
+{
+
+   /** 
+    * Set someAdminObjProperty
+    * @param someAdminObjProperty The value
+    */
+   public void setSomeAdminObjProperty(String someAdminObjProperty);
+
+   /** 
+    * Get someAdminObjProperty
+    * @return The value
+    */
+   public String getSomeAdminObjProperty();
+
+
+}
