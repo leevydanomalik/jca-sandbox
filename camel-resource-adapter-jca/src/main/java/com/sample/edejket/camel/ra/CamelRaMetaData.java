@@ -41,7 +41,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return String representing version of the resource adapter
 	 */
-	@Override
 	public String getAdapterVersion() {
 		return "0.0.1-SNAPSHOT";
 	}
@@ -51,7 +50,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return String representing name of the vendor
 	 */
-	@Override
 	public String getAdapterVendorName() {
 		return "crazy serbian software limited";
 	}
@@ -61,7 +59,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return String representing the name of the resource adapter
 	 */
-	@Override
 	public String getAdapterName() {
 		return "camel rar wannabe";
 	}
@@ -71,7 +68,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return String describing the resource adapter
 	 */
-	@Override
 	public String getAdapterShortDescription() {
 		return "When i grow up i will be rar";
 	}
@@ -82,7 +78,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * @return String representing the supported version of the connector
 	 *         architecture
 	 */
-	@Override
 	public String getSpecVersion() {
 		return "1.6";
 	}
@@ -92,7 +87,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return Array of fully-qualified class names of InteractionSpec classes
 	 */
-	@Override
 	public String[] getInteractionSpecsSupported() {
 		return null;
 	}
@@ -102,7 +96,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return boolean Depending on method support
 	 */
-	@Override
 	public boolean supportsExecuteWithInputAndOutputRecord() {
 		return false;
 	}
@@ -112,7 +105,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * 
 	 * @return boolean Depending on method support
 	 */
-	@Override
 	public boolean supportsExecuteWithInputRecordOnly() {
 		return false;
 	}
@@ -123,7 +115,6 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 * @return true If resource adapter supports resource manager local
 	 *         transaction demarcation
 	 */
-	@Override
 	public boolean supportsLocalTransactionDemarcation() {
 		return false;
 	}

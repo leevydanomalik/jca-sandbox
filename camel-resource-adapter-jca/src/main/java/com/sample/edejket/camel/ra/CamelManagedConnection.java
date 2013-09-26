@@ -238,7 +238,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.resource.spi.ManagedConnection#getXAResource()
 	 */
-	@Override
 	public XAResource getXAResource() throws ResourceException {
 		log.trace("getXAResource called, returning {}", (XAResource) this);
 		return this;
@@ -250,7 +249,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * @see javax.transaction.xa.XAResource#commit(javax.transaction.xa.Xid,
 	 * boolean)
 	 */
-	@Override
 	public void commit(final Xid xid, final boolean onePhase)
 			throws XAException {
 		log.trace("commit called with xid=[{}] and onePhase=[{}]",
@@ -263,7 +261,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#end(javax.transaction.xa.Xid, int)
 	 */
-	@Override
 	public void end(final Xid xid, final int flags) throws XAException {
 		log.trace("End called with xid=[{}] and flag[{}]", new Object[] { xid,
 				flags });
@@ -274,7 +271,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#forget(javax.transaction.xa.Xid)
 	 */
-	@Override
 	public void forget(final Xid xid) throws XAException {
 		log.trace("Forget called with xid=[{}]", xid);
 
@@ -285,7 +281,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#getTransactionTimeout()
 	 */
-	@Override
 	public int getTransactionTimeout() throws XAException {
 		log.trace("getTransactionTimeout called and returning {}",
 				this.txTimeout);
@@ -298,7 +293,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * @see
 	 * javax.transaction.xa.XAResource#isSameRM(javax.transaction.xa.XAResource)
 	 */
-	@Override
 	public boolean isSameRM(final XAResource xares) throws XAException {
 		final boolean result = this.equals(xares);
 		log.trace("isSameRM called with xares=[{}] and is returning {}",
@@ -311,7 +305,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#prepare(javax.transaction.xa.Xid)
 	 */
-	@Override
 	public int prepare(final Xid xid) throws XAException {
 		log.trace("prepare called with xid=[{}]", xid);
 		return XA_OK;
@@ -322,7 +315,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#recover(int)
 	 */
-	@Override
 	public Xid[] recover(final int flag) throws XAException {
 		log.trace("recover called with flag=[{}] and returning null", flag);
 		return null;
@@ -333,7 +325,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#rollback(javax.transaction.xa.Xid)
 	 */
-	@Override
 	public void rollback(final Xid xid) throws XAException {
 		log.trace("rollback called for xid=[{}]", xid);
 
@@ -344,7 +335,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#setTransactionTimeout(int)
 	 */
-	@Override
 	public boolean setTransactionTimeout(final int seconds) throws XAException {
 		log.trace("setTransactionTimeout called with seconds=[{}]", seconds);
 		this.txTimeout = seconds;
@@ -356,7 +346,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.transaction.xa.XAResource#start(javax.transaction.xa.Xid, int)
 	 */
-	@Override
 	public void start(final Xid xid, final int flags) throws XAException {
 		log.trace("start called for xid=[{}] and flags=[{}]", new Object[] {
 				xid, flags });
@@ -368,7 +357,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * 
 	 * @see javax.resource.spi.ManagedConnection#getLocalTransaction()
 	 */
-	@Override
 	public LocalTransaction getLocalTransaction() throws ResourceException {
 		log.trace("getLocalTransaction called, returning null");
 		return null;

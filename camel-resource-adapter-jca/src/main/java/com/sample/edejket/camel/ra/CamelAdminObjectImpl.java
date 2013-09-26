@@ -101,7 +101,6 @@ public class CamelAdminObjectImpl implements CamelAdminObject,
 	 * @exception NamingException
 	 *                Thrown if a reference can't be obtained
 	 */
-	@Override
 	public Reference getReference() throws NamingException {
 		return reference;
 	}
@@ -112,7 +111,6 @@ public class CamelAdminObjectImpl implements CamelAdminObject,
 	 * @param reference
 	 *            A Reference instance
 	 */
-	@Override
 	public void setReference(final Reference reference) {
 		this.reference = reference;
 	}

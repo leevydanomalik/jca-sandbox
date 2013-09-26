@@ -70,7 +70,6 @@ public class DataFlowImpl implements DataFlow {
 	 * com.ericsson.oss.mediation.camel.ra.DataFlow#processInput(java.lang.String
 	 * )
 	 */
-	@Override
 	public void processInput(final String testInput) throws ResourceException {
 		log.trace("<----------- called with {} -------------->", testInput);
 	}

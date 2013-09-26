@@ -79,7 +79,6 @@ public class CamelContextFactoryImpl implements DataFlowContextFactory {
 	 * @exception ResourceException
 	 *                Thrown if a connection can't be obtained
 	 */
-	@Override
 	public DataFlow getDataFlowImplementation() throws ResourceException {
 		log.trace("getDataFlowImplementation()");
 		return (DataFlow) connectionManager.allocateConnection(mcf, null);
@@ -92,7 +91,6 @@ public class CamelContextFactoryImpl implements DataFlowContextFactory {
 	 * @exception NamingException
 	 *                Thrown if a reference can't be obtained
 	 */
-	@Override
 	public Reference getReference() throws NamingException {
 		log.trace("getReference()");
 		return reference;
@@ -104,7 +102,6 @@ public class CamelContextFactoryImpl implements DataFlowContextFactory {
 	 * @param reference
 	 *            A Reference instance
 	 */
-	@Override
 	public void setReference(final Reference reference) {
 		log.trace("setReference({})", reference);
 		this.reference = reference;

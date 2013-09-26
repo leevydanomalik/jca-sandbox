@@ -53,7 +53,6 @@ public class CamelManagedConnectionMetaData implements
 	 * @throws ResourceException
 	 *             Thrown if an error occurs
 	 */
-	@Override
 	public String getEISProductName() throws ResourceException {
 		log.trace("getEISProductName()");
 		return "Apache Camel";
@@ -67,7 +66,6 @@ public class CamelManagedConnectionMetaData implements
 	 * @throws ResourceException
 	 *             Thrown if an error occurs
 	 */
-	@Override
 	public String getEISProductVersion() throws ResourceException {
 		log.trace("getEISProductVersion()");
 		return "2.9.0";
@@ -80,7 +78,6 @@ public class CamelManagedConnectionMetaData implements
 	 * @throws ResourceException
 	 *             Thrown if an error occurs
 	 */
-	@Override
 	public int getMaxConnections() throws ResourceException {
 		log.trace("getMaxConnections()");
 		return 20;
@@ -93,7 +90,6 @@ public class CamelManagedConnectionMetaData implements
 	 * @throws ResourceException
 	 *             Thrown if an error occurs
 	 */
-	@Override
 	public String getUserName() throws ResourceException {
 		log.trace("getUserName()");
 		return "camel";
