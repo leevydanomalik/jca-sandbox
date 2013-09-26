@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @version $Revision: $
  */
-@Connector(reauthenticationSupport = false, transactionSupport = TransactionSupport.TransactionSupportLevel.XATransaction, vendorName = "Ericsson", version = "0.0.1-SNAPSHOT", licenseRequired = false)
+@Connector(reauthenticationSupport = false, vendorName = "Ericsson", version = "0.0.1-SNAPSHOT", licenseRequired = false)
 public class CamelResourceAdapter implements ResourceAdapter,
 		java.io.Serializable {
 

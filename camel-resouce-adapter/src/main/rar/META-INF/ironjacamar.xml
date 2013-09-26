@@ -29,10 +29,6 @@
   <transaction-support>XATransaction</transaction-support>
   <connection-definitions>
     <connection-definition class-name="com.sample.edejket.camel.ra.CamelManagedConnectionFactory" jndi-name="java:/eis/CamelContextFactory" pool-name="CamelContextFactory">
-    <xa-pool>
-    <max-pool-size>20</max-pool-size>
-    <wrap-xa-resource>true</wrap-xa-resource>
-    </xa-pool>
       <recovery>
         <recover-credential>
           <user-name>user</user-name>

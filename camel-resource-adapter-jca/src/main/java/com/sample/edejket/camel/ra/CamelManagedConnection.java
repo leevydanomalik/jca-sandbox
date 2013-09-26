@@ -37,7 +37,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @version $Revision: $
  */
-public class CamelManagedConnection implements ManagedConnection, XAResource {
+public class CamelManagedConnection implements ManagedConnection, XAResource,
+		LocalTransaction {
 
 	/** The logger */
 	private static Logger log = LoggerFactory
@@ -229,10 +230,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 		return flow;
 	}
 
-	private CamelResourceAdapter getResourceAdapter() {
-		return (CamelResourceAdapter) this.mcf.getResourceAdapter();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -358,8 +355,38 @@ public class CamelManagedConnection implements ManagedConnection, XAResource {
 	 * @see javax.resource.spi.ManagedConnection#getLocalTransaction()
 	 */
 	public LocalTransaction getLocalTransaction() throws ResourceException {
-		log.trace("getLocalTransaction called, returning null");
-		return null;
+		log.trace("getLocalTransaction called, returning this");
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.resource.spi.LocalTransaction#begin()
+	 */
+	public void begin() throws ResourceException {
+		log.trace("begin method called...");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.resource.spi.LocalTransaction#commit()
+	 */
+	public void commit() throws ResourceException {
+		log.trace("commit method called...");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.resource.spi.LocalTransaction#rollback()
+	 */
+	public void rollback() throws ResourceException {
+		log.trace("rollback method called...");
+
 	}
 
 }
