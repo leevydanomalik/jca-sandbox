@@ -87,7 +87,7 @@
             <logger category="jacorb.config">
                 <level name="ERROR"/>
             </logger>
-             <logger category="com.ericsson.oss.mediation">
+            <logger category="com.sample.edejket">
                 <level name="TRACE"/>
             </logger>
             <logger category="org.jboss.as.txn">
