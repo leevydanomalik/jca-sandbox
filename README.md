@@ -1,5 +1,5 @@
 <p>
-Sample rar based on ironjacamar implementation of JCA 1.6. It supports both LocalTransactions and XATransactions.
+Sample rar based on ironjacamar implementation of JCA 1.6. It supports both <b>LocalTransactions</b> and <b>XATransactions</b>.
 There are three testsuites under testsuite/integration/smoke, first test will verify that rar is deployed and undeployed successfully, second one will verify transaction commit usecase, third one will verify rollback usecase.
 </p>
 To build run: mvn clean install </br>
