@@ -1,6 +1,7 @@
+<p>
 Sample rar based on ironjacamar implementation of JCA 1.6. It supports both LocalTransactions and XATransactions.
 There are three testsuites under testsuite/integration/smoke, first test will verify that rar is deployed and undeployed successfully, second one will verify transaction commit usecase, third one will verify rollback usecase.
-
+</p>
 To build run: mvn clean install
 To run integration tests: mvn clean install -DintegrationTests (this would run tests against EAP 6.1.1) alternatively you can specify old version of EAP with -Deap.version=6.0.1
 
