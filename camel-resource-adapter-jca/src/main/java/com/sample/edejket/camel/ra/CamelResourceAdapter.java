@@ -67,8 +67,9 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 * @throws ResourceException
 	 *             generic exception
 	 */
-	public void endpointActivation(MessageEndpointFactory endpointFactory,
-			ActivationSpec spec) throws ResourceException {
+	public void endpointActivation(
+			final MessageEndpointFactory endpointFactory,
+			final ActivationSpec spec) throws ResourceException {
 		log.trace("endpointActivation({}, {})", new Object[] { endpointFactory,
 				spec });
 
@@ -82,8 +83,9 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 * @param spec
 	 *            An activation spec JavaBean instance.
 	 */
-	public void endpointDeactivation(MessageEndpointFactory endpointFactory,
-			ActivationSpec spec) {
+	public void endpointDeactivation(
+			final MessageEndpointFactory endpointFactory,
+			final ActivationSpec spec) {
 		log.trace("endpointDeactivation({})", endpointFactory);
 
 	}
@@ -96,7 +98,7 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 * @throws ResourceAdapterInternalException
 	 *             indicates bootstrap failure.
 	 */
-	public void start(BootstrapContext ctx)
+	public void start(final BootstrapContext ctx)
 			throws ResourceAdapterInternalException {
 		log.trace("start({})", ctx);
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
@@ -121,7 +123,7 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 *             generic exception
 	 * @return An array of XAResource objects
 	 */
-	public XAResource[] getXAResources(ActivationSpec[] specs)
+	public XAResource[] getXAResources(final ActivationSpec[] specs)
 			throws ResourceException {
 		log.trace("getXAResources({})", specs.toString());
 		return null;

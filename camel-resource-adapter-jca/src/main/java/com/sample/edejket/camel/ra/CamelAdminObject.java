@@ -27,23 +27,24 @@ import javax.resource.Referenceable;
 
 /**
  * CamelAdminObject
- *
+ * 
  * @version $Revision: $
  */
-public interface CamelAdminObject extends Referenceable, Serializable
-{
+public interface CamelAdminObject extends Referenceable, Serializable {
 
-   /** 
-    * Set someAdminObjProperty
-    * @param someAdminObjProperty The value
-    */
-   public void setSomeAdminObjProperty(String someAdminObjProperty);
+	/**
+	 * Set someAdminObjProperty
+	 * 
+	 * @param someAdminObjProperty
+	 *            The value
+	 */
+	void setSomeAdminObjProperty(final String someAdminObjProperty);
 
-   /** 
-    * Get someAdminObjProperty
-    * @return The value
-    */
-   public String getSomeAdminObjProperty();
-
+	/**
+	 * Get someAdminObjProperty
+	 * 
+	 * @return The value
+	 */
+	String getSomeAdminObjProperty();
 
 }

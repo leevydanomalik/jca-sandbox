@@ -29,9 +29,6 @@ import javax.resource.spi.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sample.edejket.camel.ra.DataFlow;
-import com.sample.edejket.camel.ra.DataFlowContextFactory;
-
 /**
  * CamelContextFactoryImpl
  * 
@@ -69,8 +66,8 @@ public class CamelContextFactoryImpl implements DataFlowContextFactory {
 	 * @param cxManager
 	 *            ConnectionManager
 	 */
-	public CamelContextFactoryImpl(CamelManagedConnectionFactory mcf,
-			ConnectionManager cxManager) {
+	public CamelContextFactoryImpl(final CamelManagedConnectionFactory mcf,
+			final ConnectionManager cxManager) {
 		this.mcf = mcf;
 		this.connectionManager = cxManager;
 	}
@@ -108,7 +105,7 @@ public class CamelContextFactoryImpl implements DataFlowContextFactory {
 	 *            A Reference instance
 	 */
 	@Override
-	public void setReference(Reference reference) {
+	public void setReference(final Reference reference) {
 		log.trace("setReference({})", reference);
 		this.reference = reference;
 	}

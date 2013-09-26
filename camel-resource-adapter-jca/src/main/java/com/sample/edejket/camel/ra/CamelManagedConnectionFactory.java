@@ -32,9 +32,6 @@ import javax.security.auth.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sample.edejket.camel.ra.DataFlow;
-import com.sample.edejket.camel.ra.DataFlowContextFactory;
-
 /**
  * CamelManagedConnectionFactory
  * 
@@ -75,7 +72,7 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @throws ResourceException
 	 *             Generic exception
 	 */
-	public Object createConnectionFactory(ConnectionManager cxManager)
+	public Object createConnectionFactory(final ConnectionManager cxManager)
 			throws ResourceException {
 		log.trace("createConnectionFactory({})", cxManager);
 		return new CamelContextFactoryImpl(this, cxManager);
@@ -106,8 +103,8 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 *             generic exception
 	 * @return ManagedConnection instance
 	 */
-	public ManagedConnection createManagedConnection(Subject subject,
-			ConnectionRequestInfo cxRequestInfo) throws ResourceException {
+	public ManagedConnection createManagedConnection(final Subject subject,
+			final ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 		log.trace("createManagedConnection({}, {})", new Object[] { subject,
 				cxRequestInfo });
 		return new CamelManagedConnection(this);
@@ -128,8 +125,8 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @return ManagedConnection if resource adapter finds an acceptable match
 	 *         otherwise null
 	 */
-	public ManagedConnection matchManagedConnections(Set connectionSet,
-			Subject subject, ConnectionRequestInfo cxRequestInfo)
+	public ManagedConnection matchManagedConnections(final Set connectionSet,
+			final Subject subject, final ConnectionRequestInfo cxRequestInfo)
 			throws ResourceException {
 		log.trace("matchManagedConnections({}, {}, {})", new Object[] {
 				connectionSet, subject, cxRequestInfo });
@@ -167,7 +164,7 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @throws ResourceException
 	 *             generic exception
 	 */
-	public void setLogWriter(PrintWriter out) throws ResourceException {
+	public void setLogWriter(final PrintWriter out) throws ResourceException {
 		log.trace("setLogWriter({})", out);
 		logwriter = out;
 	}
@@ -188,7 +185,7 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @param ra
 	 *            The handle
 	 */
-	public void setResourceAdapter(ResourceAdapter ra) {
+	public void setResourceAdapter(final ResourceAdapter ra) {
 		log.trace("setResourceAdapter({})", ra);
 		this.ra = (CamelResourceAdapter) ra;
 	}
@@ -212,7 +209,7 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -222,7 +219,7 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CamelManagedConnectionFactory other = (CamelManagedConnectionFactory) obj;
+		final CamelManagedConnectionFactory other = (CamelManagedConnectionFactory) obj;
 		if (ra == null) {
 			if (other.ra != null) {
 				return false;

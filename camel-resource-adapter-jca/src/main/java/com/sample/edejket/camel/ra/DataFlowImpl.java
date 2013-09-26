@@ -26,8 +26,6 @@ import javax.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sample.edejket.camel.ra.DataFlow;
-
 /**
  * DataFlowImpl
  * 
@@ -52,8 +50,8 @@ public class DataFlowImpl implements DataFlow {
 	 * @param mcf
 	 *            CamelManagedConnectionFactory
 	 */
-	public DataFlowImpl(CamelManagedConnection mc,
-			CamelManagedConnectionFactory mcf) {
+	public DataFlowImpl(final CamelManagedConnection mc,
+			final CamelManagedConnectionFactory mcf) {
 		this.mc = mc;
 		this.mcf = mcf;
 	}
@@ -73,7 +71,7 @@ public class DataFlowImpl implements DataFlow {
 	 * )
 	 */
 	@Override
-	public void processInput(String testInput) throws ResourceException {
-		log.debug("<----------- called with {} -------------->", testInput);
+	public void processInput(final String testInput) throws ResourceException {
+		log.trace("<----------- called with {} -------------->", testInput);
 	}
 }

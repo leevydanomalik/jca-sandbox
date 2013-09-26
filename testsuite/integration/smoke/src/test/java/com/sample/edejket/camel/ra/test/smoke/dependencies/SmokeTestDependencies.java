@@ -15,6 +15,6 @@ import com.sample.edejket.camel.ra.test.IntegrationTestDependencies;
 
 public class SmokeTestDependencies extends IntegrationTestDependencies {
 
-	public static final String COM_ERICSSON_OSS_MEDIATION_TRANSACT_JCA = "com.ericsson.oss.mediation:camel-resouce-adapter:rar";
+	public static final String COM_ERICSSON_OSS_MEDIATION_TRANSACT_JCA = "com.sample.edejket.camel.ra:camel-resouce-adapter:rar";
 
 }

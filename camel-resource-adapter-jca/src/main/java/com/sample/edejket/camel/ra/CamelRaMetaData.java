@@ -94,7 +94,7 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 */
 	@Override
 	public String[] getInteractionSpecsSupported() {
-		return null; // TODO
+		return null;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 */
 	@Override
 	public boolean supportsExecuteWithInputAndOutputRecord() {
-		return false; // TODO
+		return false;
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class CamelRaMetaData implements ResourceAdapterMetaData {
 	 */
 	@Override
 	public boolean supportsExecuteWithInputRecordOnly() {
-		return false; // TODO
+		return false;
 	}
 
 	/**

@@ -55,7 +55,7 @@ public class CamelMBeanImpl implements CamelMBean {
 	 * @param v
 	 *            The value
 	 */
-	public void setMBeanServer(MBeanServer v) {
+	public void setMBeanServer(final MBeanServer v) {
 		mbeanServer = v;
 	}
 
