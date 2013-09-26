@@ -24,16 +24,17 @@ package com.sample.edejket.camel.ra;
 import javax.resource.ResourceException;
 
 /**
- * DataFlow
+ * Interface representing connection in JCA terms
  * 
- * @version $Revision: $
+ * @author edejket
+ * 
  */
 public interface DataFlow {
 
-	public void processInput(final String testInput) throws ResourceException;
+	void processInput(final String testInput) throws ResourceException;
 
 	/**
-	 * Close
+	 * Close connection in jca terms
 	 */
-	public void close();
+	void close();
 }

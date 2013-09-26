@@ -27,18 +27,20 @@ import javax.resource.Referenceable;
 import javax.resource.ResourceException;
 
 /**
- * CamelContextFactory
+ * Representation of connection factory in JCA terms
  * 
- * @version $Revision: $
+ * @author edejket
+ * 
  */
 public interface DataFlowContextFactory extends Serializable, Referenceable {
+
 	/**
-	 * Get connection from factory
+	 * Get connection from connection factory
 	 * 
 	 * @return DataFlow instance
 	 * @exception ResourceException
 	 *                Thrown if a connection can't be obtained
 	 */
-	public DataFlow getDataFlowImplementation() throws ResourceException;
+	DataFlow getDataFlowImplementation() throws ResourceException;
 
 }
