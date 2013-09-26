@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ericsson.oss.mediation</groupId>
+		<groupId>com.sample.edejket.camel.ra</groupId>
 		<artifactId>transactional_jca</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -16,7 +16,7 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ericsson.oss.mediation</groupId>
+			<groupId>com.sample.edejket.camel.ra</groupId>
 			<artifactId>camel-resource-adapter-api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
