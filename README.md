@@ -9,11 +9,11 @@ To build run: mvn clean install
 To run integration tests: mvn clean install -DintegrationTests (this would run tests against EAP 6.1.1) alternatively you can specify old version of EAP with -Deap.version=6.0.1
 </p>
 <p>
-mvn clean install -DintegrationTests or mvn clean install -DintegrationTests -Deap.version=6.1.1
+<b>mvn clean install -DintegrationTests or mvn clean install -DintegrationTests -Deap.version=6.1.1</b>
 </p>
 or
 <p>
-mvn clean install -DintegrationTests -Deap.version=6.0.1</br>
+<b>mvn clean install -DintegrationTests -Deap.version=6.0.1</b></br>
 </p>
 <p>
 Code is preconfigured to use XATransactions, this can be changed in camel-resouce-adapter/src/main/rar/META-INF/ironjacamar.xml
