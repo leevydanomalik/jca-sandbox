@@ -339,26 +339,7 @@
 				<journal-file-size>102400</journal-file-size>
 				<journal-min-files>2</journal-min-files>
 
-				<jms-destinations>
-					<jms-topic name="SFWKsdkConfigPropertyModification">
-						<entry name="topic/sdk-config-property-modification" />
-						<entry
-							name="java:jboss/exported/jms/topic/sdk-config-property-modification" />
-					</jms-topic>
-					<jms-topic name="SFWKsdkHealthCheckTopic">
-						<entry name="topic/sdk-healthcheck-topic" />
-						<entry name="java:jboss/exported/jms/topic/sdk-healthcheck-topic" />
-					</jms-topic>
-					<jms-topic name="SFWKsdkUpgradeCoreTopic">
-						<entry name="topic/sdk-upgrade-topic" />
-						<entry name="java:jboss/exported/jms/topic/sdk-upgrade-topic" />
-					</jms-topic>
-					<jms-topic name="SFWKsdkServiceAvailabilityTopic">
-						<entry name="topic/sdk-service-availability-topic" />
-						<entry
-							name="java:jboss/exported/jms/topic/sdk-service-availability-topic" />
-					</jms-topic>
-				</jms-destinations>
+				
 
 				<connectors>
 					<netty-connector name="netty" socket-binding="messaging" />
