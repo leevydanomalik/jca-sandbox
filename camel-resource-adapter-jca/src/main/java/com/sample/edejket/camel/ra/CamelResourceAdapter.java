@@ -21,6 +21,8 @@
  */
 package com.sample.edejket.camel.ra;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
@@ -105,10 +107,14 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	public void start(final BootstrapContext ctx)
 			throws ResourceAdapterInternalException {
 		log.trace("start()");
-		System.out.println("<--------------Start RA---------------->");
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
 		this.xaTerminator = ctx.getXATerminator();
-		this.camelContext = new DefaultCamelContext();
+		try {
+			this.camelContext = new DefaultCamelContext(new InitialContext());
+		} catch (NamingException ne) {
+			log.error("Error while trying to start camel context:", ne);
+			throw new ResourceAdapterInternalException(ne);
+		}
 		try {
 			this.camelContext.start();
 		} catch (Exception e) {
