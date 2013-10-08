@@ -27,4 +27,8 @@
 			</modules>
 		</profile>
 	</profiles>
+	<modules>
+		<module>sample-camel-component</module>
+		<module>sample-component-contrib</module>
+	</modules>
 </project>

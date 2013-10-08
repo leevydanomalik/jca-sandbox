@@ -44,7 +44,7 @@ public class DeploymentTest {
 	@Deployment(name = "camel-engine-rar", testable = false, managed = false)
 	public static Archive<?> depoloyModelService() {
 		return IntegrationTestDeploymentFactory
-				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_ERICSSON_OSS_MEDIATION_TRANSACT_JCA);
+				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_SAMPLE_EDEJKET_CAMEL_RA);
 	}
 
 	/**

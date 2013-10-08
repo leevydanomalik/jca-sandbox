@@ -112,7 +112,32 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>camel-module-zip</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules/system/layers/base</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>contribution-set-module</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules/system/layers/base</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
 									<artifactId>camel-resource-adapter-api-module</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules/system/layers/base</outputDirectory>
+								</artifactItem>
+								<!-- custom component for the component loading test -->
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>sample-component-contrib</artifactId>
 									<version>${project.version}</version>
 									<type>zip</type>
 									<overWrite>true</overWrite>
@@ -138,6 +163,26 @@
 											<directory>src/test/resources/jboss_settings/standalone/configuration/eap-6.1.1/</directory>
 											<includes>
 												<include>standalone-full-ha.xml</include>
+											</includes>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>overwrite-custom-contrib-module-xml</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${jboss.home}/modules/system/layers/base/com/sample/edejket/camel/contrib/custom_contrib_comp/main/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/test/resources/test_settings/custom_module_xml/</directory>
+											<includes>
+												<include>module.xml</include>
 											</includes>
 											<filtering>false</filtering>
 										</resource>
@@ -217,6 +262,22 @@
 									<type>zip</type>
 									<overWrite>false</overWrite>
 									<outputDirectory>target/</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>camel-module-zip</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>contribution-set-module</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules</outputDirectory>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.sample.edejket.camel.ra</groupId>

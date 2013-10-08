@@ -63,7 +63,7 @@ public class CommitTransactionTest {
 	@Deployment(name = "camel-engine-rar-deployment-commit", managed = false, testable = false)
 	public static Archive<?> createResourceAdapter() {
 		return IntegrationTestDeploymentFactory
-				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_ERICSSON_OSS_MEDIATION_TRANSACT_JCA);
+				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_SAMPLE_EDEJKET_CAMEL_RA);
 	}
 
 	/**

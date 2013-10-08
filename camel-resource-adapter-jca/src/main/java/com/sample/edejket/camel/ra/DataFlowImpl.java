@@ -72,5 +72,7 @@ public class DataFlowImpl implements DataFlow {
 	 */
 	public void processInput(final String testInput) throws ResourceException {
 		log.trace("<----------- called with {} -------------->", testInput);
+		log.trace("mc:{}", mc);
+		mc.processInput(testInput);
 	}
 }

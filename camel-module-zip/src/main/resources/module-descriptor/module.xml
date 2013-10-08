@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1"
+	name="org.apache.camel">
+	<resources>
+		<resource-root path="camel-core-2.11.0.jar" />
+	</resources>
+
+	<dependencies>
+		<module name="org.slf4j" export="true"/>
+		<module name="javax.api" export="true"/>
+	</dependencies>
+</module>

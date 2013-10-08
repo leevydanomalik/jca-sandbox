@@ -1,5 +1,4 @@
 .project
 .settings/
 .classpath
-testsuite/integration/smoke/target/
-*/target
+*/target/

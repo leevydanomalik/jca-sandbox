@@ -28,6 +28,8 @@
 		<module>camel-resource-adapter-jca</module>
 		<module>camel-resource-adapter-api</module>
 		<module>camel-resource-adapter-api-module</module>
+		<module>camel-module-zip</module>
+		<module>contribution-set-module</module>
 	</modules>
 	<build>
 		<pluginManagement>
@@ -70,6 +72,12 @@
 				<version>${version.arquillian.bom}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-core</artifactId>
+				<version>2.11.0</version>
 			</dependency>
 
 		</dependencies>

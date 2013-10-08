@@ -1,1 +1,0 @@
-Dependencies: com.sample.edejket.camel.ra.api

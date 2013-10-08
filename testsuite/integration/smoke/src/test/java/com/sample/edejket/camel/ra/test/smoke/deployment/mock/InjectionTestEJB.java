@@ -19,4 +19,6 @@ public interface InjectionTestEJB {
 	void invokeRarMethodUnderTransaction();
 
 	void invokeRarMethodCauseRollback();
+
+	void loadCustomTestComponent();
 }

@@ -75,4 +75,25 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 		throw new RuntimeException("Rollback transaction please...");
 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.sample.edejket.camel.ra.test.smoke.deployment.mock.InjectionTestEJB
+	 * #loadCustomTestComponent()
+	 */
+	@Override
+	public void loadCustomTestComponent() {
+		DataFlow flow = null;
+		log.trace("<------------------Called loadCustomTestComponent() method--------------->");
+		try {
+			flow = dfContext.getDataFlowImplementation();
+			flow.processInput("LOAD CUSTOM COMPONENT");
+			log.trace("Exiting loadCustomTestComponent() method");
+		} catch (ResourceException re) {
+			log.error("Caught exception during flow invocation test:", re);
+		}
+	}
+
 }

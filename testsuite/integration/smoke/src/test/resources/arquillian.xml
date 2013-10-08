@@ -17,6 +17,7 @@
 			<property name="javaVmArguments">-Xms1024m -Xmx1024m -XX:MaxPermSize=256m 
 			-Djboss.socket.binding.port-offset=500 
 			-Djboss.node.name=RAR_TRANSACT_SMOKE-TEST 
+			-Dorg.jboss.as.logging.per-deployment=false
 			</property>
 			<!-- incremented by 500 from 9999 -->
 			<property name="managementPort">10499</property>

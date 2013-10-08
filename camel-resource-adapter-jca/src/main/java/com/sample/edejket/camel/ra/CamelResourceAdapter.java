@@ -27,6 +27,8 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,11 +46,13 @@ public class CamelResourceAdapter implements ResourceAdapter,
 
 	/** The logger */
 	private static Logger log = LoggerFactory
-			.getLogger(CamelResourceAdapter.class.getName());
+			.getLogger(CamelResourceAdapter.class);
 
 	private TransactionSynchronizationRegistry txRegistry;
 
 	private XATerminator xaTerminator;
+
+	private CamelContext camelContext;
 
 	/**
 	 * Default constructor
@@ -100,9 +104,18 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 */
 	public void start(final BootstrapContext ctx)
 			throws ResourceAdapterInternalException {
-		log.trace("start({})", ctx);
+		log.trace("start()");
+		System.out.println("<--------------Start RA---------------->");
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
 		this.xaTerminator = ctx.getXATerminator();
+		this.camelContext = new DefaultCamelContext();
+		try {
+			this.camelContext.start();
+			Thread.sleep(5000);
+		} catch (Exception e) {
+			log.error("Error while trying to start camel context:", e);
+			throw new ResourceAdapterInternalException(e);
+		}
 	}
 
 	/**
@@ -111,6 +124,11 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 */
 	public void stop() {
 		log.trace("stop()");
+		try {
+			this.camelContext.stop();
+		} catch (Exception e) {
+			log.error("Error while trying to stop camel context:", e);
+		}
 
 	}
 
@@ -176,6 +194,21 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		}
 		boolean result = true;
 		return result;
+	}
+
+	/**
+	 * @return the camelContext
+	 */
+	public CamelContext getCamelContext() {
+		return camelContext;
+	}
+
+	/**
+	 * @param camelContext
+	 *            the camelContext to set
+	 */
+	public void setCamelContext(final CamelContext camelContext) {
+		this.camelContext = camelContext;
 	}
 
 }

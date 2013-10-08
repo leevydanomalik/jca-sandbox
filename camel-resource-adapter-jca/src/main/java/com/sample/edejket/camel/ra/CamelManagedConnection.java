@@ -29,6 +29,8 @@ import javax.resource.spi.*;
 import javax.security.auth.Subject;
 import javax.transaction.xa.*;
 
+import org.apache.camel.*;
+import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +59,8 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 
 	private int txTimeout;
 
+	private CamelResourceAdapter camelRa;
+
 	/**
 	 * Default constructor
 	 * 
@@ -70,6 +74,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 		this.listeners = Collections
 				.synchronizedList(new ArrayList<ConnectionEventListener>(1));
 		this.flow = null;
+		this.camelRa = (CamelResourceAdapter) mcf.getResourceAdapter();
 	}
 
 	/**
@@ -228,6 +233,51 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	public DataFlowImpl getFlow() {
 		return flow;
+	}
+
+	/**
+	 * Process input
+	 * 
+	 * @param testInput
+	 * @throws ResourceException
+	 */
+	public void processInput(final String testInput) throws ResourceException {
+		log.trace("processInput called with input {}", testInput);
+		final String routeName = "loadCustomComponentRoute";
+
+		if ("LOAD CUSTOM COMPONENT".equalsIgnoreCase(testInput)) {
+			final CamelContext camelCtx = this.camelRa.getCamelContext();
+			final RouteBuilder routeBuilder = new RouteBuilder() {
+
+				@Override
+				public void configure() throws Exception {
+
+					from("direct:customComponentRoute").to(
+							"customComp://someCustomComponent")
+							.setId(routeName);
+
+				}
+			};
+
+			try {
+				camelCtx.addRoutes(routeBuilder);
+
+				final Route route = camelCtx.getRoute(routeName);
+				final Endpoint endpoint = route.getEndpoint();
+				final Producer producer = endpoint.createProducer();
+				final Exchange ex = endpoint.createExchange();
+				ex.getIn().setBody("CUSTOM CAMEL COMPONENT TEST");
+				producer.process(ex);
+				log.trace("processInput method invocation ended...");
+
+			} catch (Exception e) {
+				log.error("Error adding route into camel context:", e);
+				throw new ResourceException(e);
+			}
+		} else {
+			log.trace("processInput method invocation ended for for other testcases");
+		}
+
 	}
 
 	/*
