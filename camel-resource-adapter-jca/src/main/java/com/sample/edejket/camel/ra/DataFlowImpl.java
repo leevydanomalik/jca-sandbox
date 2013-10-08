@@ -59,7 +59,7 @@ public class DataFlowImpl implements DataFlow {
 	/**
 	 * Close
 	 */
-	public void close() {
+	private final void close() {
 		mc.closeHandle(this);
 	}
 
@@ -67,12 +67,49 @@ public class DataFlowImpl implements DataFlow {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ericsson.oss.mediation.camel.ra.DataFlow#processInput(java.lang.String
-	 * )
+	 * com.sample.edejket.camel.ra.DataFlow#createDataFlow(java.lang.String)
 	 */
-	public void processInput(final String testInput) throws ResourceException {
-		log.trace("<----------- called with {} -------------->", testInput);
-		log.trace("mc:{}", mc);
-		mc.processInput(testInput);
+	@Override
+	public String createDataFlow(final String flowDefinition)
+			throws ResourceException {
+		log.trace("createDataFlow called for flow definition=[{}]",
+				flowDefinition);
+		final CamelRequest request = new RouteBuildRequest(flowDefinition,
+				mc.getCamelContext());
+		processRequest(request);
+		return ((RouteBuildRequest) request).getRouteId();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.sample.edejket.camel.ra.DataFlow#createDataFlowAndApplyInput(java
+	 * .lang.String, java.lang.Object)
+	 */
+	@Override
+	public String createDataFlowAndApplyInput(final String flowDefinition,
+			final Object input) throws ResourceException {
+		log.trace(
+				"createDataFlowAndApplyInput called for flow definition=[{}] and input=[{}]",
+				flowDefinition, input);
+		final CamelRequest request = new RouteBuildAndRunRequest(
+				flowDefinition, input, mc.getCamelContext());
+		processRequest(request);
+		return ((RouteBuildRequest) request).getRouteId();
+
+	}
+
+	private final void processRequest(final CamelRequest request)
+			throws ResourceException {
+		try {
+			mc.processRequest(request);
+		} catch (Exception e) {
+			log.error("Exception caught while processing request:", e);
+			throw new ResourceException(e);
+		} finally {
+			close();
+		}
 	}
 }

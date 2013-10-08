@@ -111,6 +111,13 @@
 
 				</dependencies>
 			</dependencyManagement>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>my-snapshots</id>
+					<name>my-snapshots</name>
+					<url>http://54.200.115.200:8081/nexus/content/repositories/snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
 			<repositories>
 				<repository>
 					<id>my_nexus</id>
@@ -140,6 +147,16 @@
 					</releases>
 					<snapshots>
 						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>my-snapshots</id>
+					<url>http://54.200.115.200:8081/nexus/content/repositories/snapshots</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
 					</snapshots>
 				</repository>
 			</repositories>

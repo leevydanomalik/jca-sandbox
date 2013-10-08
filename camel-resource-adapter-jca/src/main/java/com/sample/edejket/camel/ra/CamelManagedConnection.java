@@ -26,11 +26,11 @@ import java.util.*;
 
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
+import javax.resource.spi.work.WorkManager;
 import javax.security.auth.Subject;
 import javax.transaction.xa.*;
 
-import org.apache.camel.*;
-import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.CamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -235,51 +235,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 		return flow;
 	}
 
-	/**
-	 * Process input
-	 * 
-	 * @param testInput
-	 * @throws ResourceException
-	 */
-	public void processInput(final String testInput) throws ResourceException {
-		log.trace("processInput called with input {}", testInput);
-		final String routeName = "loadCustomComponentRoute";
-
-		if ("LOAD CUSTOM COMPONENT".equalsIgnoreCase(testInput)) {
-			final CamelContext camelCtx = this.camelRa.getCamelContext();
-			final RouteBuilder routeBuilder = new RouteBuilder() {
-
-				@Override
-				public void configure() throws Exception {
-
-					from("direct:customComponentRoute").to(
-							"customComp://someCustomComponent")
-							.setId(routeName);
-
-				}
-			};
-
-			try {
-				camelCtx.addRoutes(routeBuilder);
-
-				final Route route = camelCtx.getRoute(routeName);
-				final Endpoint endpoint = route.getEndpoint();
-				final Producer producer = endpoint.createProducer();
-				final Exchange ex = endpoint.createExchange();
-				ex.getIn().setBody("CUSTOM CAMEL COMPONENT TEST");
-				producer.process(ex);
-				log.trace("processInput method invocation ended...");
-
-			} catch (Exception e) {
-				log.error("Error adding route into camel context:", e);
-				throw new ResourceException(e);
-			}
-		} else {
-			log.trace("processInput method invocation ended for for other testcases");
-		}
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -437,6 +392,18 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	public void rollback() throws ResourceException {
 		log.trace("rollback method called...");
 
+	}
+
+	public void processRequest(final CamelRequest request) throws Exception {
+		getWorkManager().doWork(request);
+	}
+
+	private WorkManager getWorkManager() {
+		return this.camelRa.getWorkManager();
+	}
+
+	public CamelContext getCamelContext() {
+		return this.camelRa.getCamelContext();
 	}
 
 }

@@ -31,10 +31,9 @@ import javax.resource.ResourceException;
  */
 public interface DataFlow {
 
-	void processInput(final String testInput) throws ResourceException;
+	String createDataFlow(final String flowDefinition) throws ResourceException;
 
-	/**
-	 * Close connection in jca terms
-	 */
-	void close();
+	String createDataFlowAndApplyInput(final String flowDefinition,
+			final Object input) throws ResourceException;
+
 }

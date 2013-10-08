@@ -30,6 +30,12 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 	@Resource(lookup = "java:/eis/CamelContextFactory")
 	private DataFlowContextFactory dfContext;
 
+	public static final String validRouteDef = "from(direct:customComponentRoute).to(file://test).autoStartup(true).setId(routeName)";
+
+	public static final String invalidRouteDef = "from(direct:customComponentRoute).to(customComp1://someCustomComponent).autoStartup(true).setId(routeName)";
+
+	public static final String contribCompRouteDef = "from(direct:customComponentRoute).to(customComp://someCustomComponent).autoStartup(true).setId(routeName)";
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,9 +49,13 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 		log.trace("<------------------Called invokeRarMethodUnderTransaction() method--------------->");
 		try {
 			DataFlow flow = dfContext.getDataFlowImplementation();
-			flow.processInput("Good input");
-			flow.close();
-			log.trace("Exiting invokeRarMethodUnderTransaction() method");
+			final String flowId = flow.createDataFlow(validRouteDef);
+			log.trace(
+					"Exiting invokeRarMethodUnderTransaction() method, result=[{}]",
+					flowId);
+			System.out
+					.println("Exiting invokeRarMethodUnderTransaction() method, result="
+							+ flowId);
 		} catch (ResourceException re) {
 			log.error("Caught exception during flow invocation test:", re);
 		}
@@ -66,13 +76,17 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 		log.trace("<------------------Called invokeRarMethodCauseRollback() method--------------->");
 		try {
 			flow = dfContext.getDataFlowImplementation();
-			flow.processInput("bad input");
-			log.trace("Exiting invokeRarMethodCauseRollback() method");
+			final String flowId = flow.createDataFlow(invalidRouteDef);
+			log.trace(
+					"Exiting invokeRarMethodCauseRollback() method, result=[{}]",
+					flowId);
+			System.out
+					.println("Exiting invokeRarMethodCauseRollback() method, result="
+							+ flowId);
 		} catch (ResourceException re) {
 			log.error("Caught exception during flow invocation test:", re);
-
+			throw new RuntimeException(re);
 		}
-		throw new RuntimeException("Rollback transaction please...");
 
 	}
 
@@ -84,12 +98,16 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 	 * #loadCustomTestComponent()
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void loadCustomTestComponent() throws ResourceException {
 		DataFlow flow = null;
 		log.trace("<------------------Called loadCustomTestComponent() method--------------->");
 		flow = dfContext.getDataFlowImplementation();
-		flow.processInput("LOAD CUSTOM COMPONENT");
-		log.trace("Exiting loadCustomTestComponent() method");
+		final String input = "CONTRIB COMPONENT TEST";
+		final String flowId = flow.createDataFlowAndApplyInput(
+				contribCompRouteDef, (Object) input);
+		log.trace("Exiting loadCustomTestComponent() method, result=[{}]",
+				flowId);
 
 	}
 

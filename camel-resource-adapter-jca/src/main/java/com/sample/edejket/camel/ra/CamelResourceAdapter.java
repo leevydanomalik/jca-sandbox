@@ -22,10 +22,10 @@
 package com.sample.edejket.camel.ra;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
+import javax.resource.spi.work.WorkManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
 
@@ -55,6 +55,8 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	private XATerminator xaTerminator;
 
 	private CamelContext camelContext;
+
+	private WorkManager workManager;
 
 	/**
 	 * Default constructor
@@ -109,17 +111,21 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		log.trace("start()");
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
 		this.xaTerminator = ctx.getXATerminator();
+		this.workManager = ctx.getWorkManager();
+		final ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
+
+			Thread.currentThread().setContextClassLoader(
+					this.getClass().getClassLoader());
 			this.camelContext = new DefaultCamelContext(new InitialContext());
-		} catch (NamingException ne) {
+			this.camelContext.setApplicationContextClassLoader(this.getClass()
+					.getClassLoader());
+			this.camelContext.start();
+		} catch (Exception ne) {
 			log.error("Error while trying to start camel context:", ne);
 			throw new ResourceAdapterInternalException(ne);
-		}
-		try {
-			this.camelContext.start();
-		} catch (Exception e) {
-			log.error("Error while trying to start camel context:", e);
-			throw new ResourceAdapterInternalException(e);
+		} finally {
+			Thread.currentThread().setContextClassLoader(cl);
 		}
 	}
 
@@ -214,6 +220,21 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 */
 	public void setCamelContext(final CamelContext camelContext) {
 		this.camelContext = camelContext;
+	}
+
+	/**
+	 * @return the workManager
+	 */
+	public WorkManager getWorkManager() {
+		return workManager;
+	}
+
+	/**
+	 * @param workManager
+	 *            the workManager to set
+	 */
+	public void setWorkManager(final WorkManager workManager) {
+		this.workManager = workManager;
 	}
 
 }
