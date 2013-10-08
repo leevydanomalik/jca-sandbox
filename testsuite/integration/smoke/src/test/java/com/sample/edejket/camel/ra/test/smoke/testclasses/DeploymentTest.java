@@ -42,7 +42,7 @@ public class DeploymentTest {
 	 * @return rar deployment
 	 */
 	@Deployment(name = "camel-engine-rar", testable = false, managed = false)
-	public static Archive<?> depoloyModelService() {
+	public static Archive<?> createResourceAdapterDeployment() {
 		return IntegrationTestDeploymentFactory
 				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_ERICSSON_OSS_MEDIATION_TRANSACT_JCA);
 	}
@@ -54,14 +54,14 @@ public class DeploymentTest {
 	@Test
 	@InSequence(1)
 	@OperateOnDeployment("camel-engine-rar")
-	public void testDeployModelService() throws Exception {
+	public void deployResourceAdapter() throws Exception {
 		this.deployer.deploy("camel-engine-rar");
 	}
 
 	@Test
 	@InSequence(2)
 	@OperateOnDeployment("camel-engine-rar")
-	public void deployMediationCore() {
+	public void undeployResourceAdapter() {
 		this.deployer.undeploy("camel-engine-rar");
 	}
 
