@@ -111,7 +111,6 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		this.camelContext = new DefaultCamelContext();
 		try {
 			this.camelContext.start();
-			Thread.sleep(5000);
 		} catch (Exception e) {
 			log.error("Error while trying to start camel context:", e);
 			throw new ResourceAdapterInternalException(e);

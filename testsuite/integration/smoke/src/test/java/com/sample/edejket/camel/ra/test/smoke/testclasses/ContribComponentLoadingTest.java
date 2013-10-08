@@ -95,7 +95,6 @@ public class ContribComponentLoadingTest {
 	public void testLoadCustomComponent() throws Exception {
 		log.info("<-----------invoking testLoadCustomComponent-------------->");
 		this.injectedEjb.loadCustomTestComponent();
-		Thread.sleep(5000);
 	}
 
 	@Test
