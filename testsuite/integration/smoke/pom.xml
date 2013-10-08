@@ -287,6 +287,15 @@
 									<overWrite>true</overWrite>
 									<outputDirectory>${jboss.home}/modules</outputDirectory>
 								</artifactItem>
+								<!-- custom component for the component loading test -->
+								<artifactItem>
+									<groupId>com.sample.edejket.camel.ra</groupId>
+									<artifactId>sample-component-contrib</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${jboss.home}/modules</outputDirectory>
+								</artifactItem>
 							</artifactItems>
 						</configuration>
 					</plugin>
@@ -327,6 +336,26 @@
 											<directory>src/test/resources/jboss_settings/instance_conf/</directory>
 											<includes>
 												<include>*.*</include>
+											</includes>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>overwrite-custom-contrib-module-xml</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${jboss.home}/modules/com/sample/edejket/camel/contrib/main/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/test/resources/test_settings/custom_module_xml/</directory>
+											<includes>
+												<include>module.xml</include>
 											</includes>
 											<filtering>false</filtering>
 										</resource>
