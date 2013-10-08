@@ -12,6 +12,7 @@
 package com.sample.edejket.camel.ra.test.smoke.deployment.mock;
 
 import javax.ejb.Local;
+import javax.resource.ResourceException;
 
 @Local
 public interface InjectionTestEJB {
@@ -20,5 +21,5 @@ public interface InjectionTestEJB {
 
 	void invokeRarMethodCauseRollback();
 
-	void loadCustomTestComponent();
+	void loadCustomTestComponent() throws ResourceException;
 }

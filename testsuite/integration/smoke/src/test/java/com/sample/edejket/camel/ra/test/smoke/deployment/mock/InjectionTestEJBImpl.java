@@ -84,16 +84,13 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 	 * #loadCustomTestComponent()
 	 */
 	@Override
-	public void loadCustomTestComponent() {
+	public void loadCustomTestComponent() throws ResourceException {
 		DataFlow flow = null;
 		log.trace("<------------------Called loadCustomTestComponent() method--------------->");
-		try {
-			flow = dfContext.getDataFlowImplementation();
-			flow.processInput("LOAD CUSTOM COMPONENT");
-			log.trace("Exiting loadCustomTestComponent() method");
-		} catch (ResourceException re) {
-			log.error("Caught exception during flow invocation test:", re);
-		}
+		flow = dfContext.getDataFlowImplementation();
+		flow.processInput("LOAD CUSTOM COMPONENT");
+		log.trace("Exiting loadCustomTestComponent() method");
+
 	}
 
 }
