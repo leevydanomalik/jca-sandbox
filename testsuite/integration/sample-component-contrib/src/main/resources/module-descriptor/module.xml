@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module xmlns="urn:jboss:module:1.1"
-	name="com.sample.edejket.camel.contrib.custom_contrib_comp">
+	name="com.sample.edejket.camel.samplecontrib.customcomp">
 	<resources>
 		<resource-root path="sample-camel-component-0.0.1-SNAPSHOT.jar" />
 	</resources>

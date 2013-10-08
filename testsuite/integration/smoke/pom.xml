@@ -177,7 +177,7 @@
 								</goals>
 								<configuration>
 									<overwrite>true</overwrite>
-									<outputDirectory>${jboss.home}/modules/system/layers/base/com/sample/edejket/camel/contrib/custom_contrib_comp/main/</outputDirectory>
+									<outputDirectory>${jboss.home}/modules/system/layers/base/com/sample/edejket/camel/contrib/main/</outputDirectory>
 									<resources>
 										<resource>
 											<directory>src/test/resources/test_settings/custom_module_xml/</directory>

@@ -5,6 +5,6 @@
 	</resources>
 
 	<dependencies>
-		<module name="com.sample.edejket.camel.contrib.custom_contrib_comp" export="true" services="export"/>
+		<module name="com.sample.edejket.camel.samplecontrib.customcomp" export="true" services="export"/>
 	</dependencies>
 </module>

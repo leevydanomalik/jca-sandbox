@@ -10,7 +10,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>target/module-jars</directory>
-			<outputDirectory>/com/sample/edejket/camel/contrib/custom_contrib_comp/main</outputDirectory>
+			<outputDirectory>/com/sample/edejket/camel/samplecontrib/customcomp/main</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
