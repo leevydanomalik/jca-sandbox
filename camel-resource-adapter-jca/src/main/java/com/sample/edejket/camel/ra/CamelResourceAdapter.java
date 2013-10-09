@@ -118,8 +118,10 @@ public class CamelResourceAdapter implements ResourceAdapter,
 			Thread.currentThread().setContextClassLoader(
 					this.getClass().getClassLoader());
 			this.camelContext = new DefaultCamelContext(new InitialContext());
-			this.camelContext.setApplicationContextClassLoader(this.getClass()
-					.getClassLoader());
+			this.camelContext.setApplicationContextClassLoader(Thread
+					.currentThread().getContextClassLoader());
+			log.trace("ApplicationContextClassLoader is {}",
+					this.camelContext.getApplicationContextClassLoader());
 			this.camelContext.start();
 		} catch (Exception ne) {
 			log.error("Error while trying to start camel context:", ne);
