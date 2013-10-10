@@ -62,8 +62,6 @@ public class CamelResourceAdapter implements ResourceAdapter,
 
 	private WorkManager workManager;
 
-	private static final String CAMEL_SETTER = "setCamelContext";
-
 	/**
 	 * Default constructor
 	 */
