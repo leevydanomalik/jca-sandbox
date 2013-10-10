@@ -18,6 +18,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,6 +31,16 @@ import com.sample.edejket.camel.ra.test.smoke.deployment.mock.InjectionTestEJB;
 
 @RunWith(Arquillian.class)
 public class ContribComponentLoadingTest {
+
+	/**
+	 * 
+	 */
+	private static final String CAMEL_ENGINE_RAR_DEPLOYMENT_NAME = "camel-engine-rar";
+
+	/**
+	 * 
+	 */
+	private static final String WAR_WITH_EJB_DEPLOYMENT_NAME = "war-with-ejb-commit";
 
 	/**
 	 * Since we want different scenarios, we will control arq deployment
@@ -53,8 +64,8 @@ public class ContribComponentLoadingTest {
 	 * 
 	 * @return rar deployment
 	 */
-	@Deployment(name = "camel-engine-rar", testable = false, managed = false)
-	public static Archive<?> depoloyModelService() {
+	@Deployment(name = CAMEL_ENGINE_RAR_DEPLOYMENT_NAME, testable = false, managed = false)
+	public static Archive<?> deployResourceAdapter() {
 		return IntegrationTestDeploymentFactory
 				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_SAMPLE_EDEJKET_CAMEL_RA);
 	}
@@ -65,7 +76,7 @@ public class ContribComponentLoadingTest {
 	 * 
 	 * @return war deployment
 	 */
-	@Deployment(name = "war-with-ejb-commit", managed = false, testable = true)
+	@Deployment(name = WAR_WITH_EJB_DEPLOYMENT_NAME, managed = false, testable = true)
 	public static Archive<?> createWarWithEjb() {
 		return SmokeTestDeploymentFactory.createWarTestDeployment();
 	}
@@ -76,32 +87,43 @@ public class ContribComponentLoadingTest {
 
 	@Test
 	@InSequence(1)
-	@OperateOnDeployment("camel-engine-rar")
-	public void testDeployModelService() throws Exception {
-		this.deployer.deploy("camel-engine-rar");
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
+	public void testDeployRar() throws Exception {
+		this.deployer.deploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 
 	@Test
 	@InSequence(2)
-	@OperateOnDeployment("war-with-ejb-commit")
+	@OperateOnDeployment(WAR_WITH_EJB_DEPLOYMENT_NAME)
 	public void deployWarWithEjb() throws Exception {
 		log.info("<-----------Contrib component test case, deploying test.war-------------->");
-		this.deployer.deploy("war-with-ejb-commit");
+		this.deployer.deploy(WAR_WITH_EJB_DEPLOYMENT_NAME);
 	}
 
 	@Test
 	@InSequence(3)
-	@OperateOnDeployment("war-with-ejb-commit")
+	@OperateOnDeployment(WAR_WITH_EJB_DEPLOYMENT_NAME)
 	public void testLoadCustomComponent() throws Exception {
-		log.info("<-----------invoking testLoadCustomComponent-------------->");
+		log.info("<-----------ContribComponentLoadingTest test case invoking loadCustomComponent-------------->");
 		this.injectedEjb.loadCustomTestComponent();
 	}
 
+	@Ignore
 	@Test
 	@InSequence(4)
-	@OperateOnDeployment("camel-engine-rar")
-	public void deployMediationCore() {
-		this.deployer.undeploy("camel-engine-rar");
+	@OperateOnDeployment(WAR_WITH_EJB_DEPLOYMENT_NAME)
+	public void undeployTest() throws Exception {
+		log.info("<-----------ContribComponentLoadingTest test case, undeploy test.war-------------->");
+		this.deployer.undeploy(WAR_WITH_EJB_DEPLOYMENT_NAME);
+	}
+
+	@Ignore
+	@Test
+	@InSequence(5)
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
+	public void undeployRar() {
+		log.info("<-----------ContribComponentLoadingTest test case, undeploy rar-------------->");
+		this.deployer.undeploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 
 }

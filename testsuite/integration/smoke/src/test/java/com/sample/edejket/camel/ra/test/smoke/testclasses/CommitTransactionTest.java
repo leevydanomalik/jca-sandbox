@@ -39,6 +39,16 @@ import com.sample.edejket.camel.ra.test.smoke.deployment.mock.InjectionTestEJB;
 public class CommitTransactionTest {
 
 	/**
+	 * 
+	 */
+	private static final String WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME = "war-with-ejb-commit";
+
+	/**
+	 * 
+	 */
+	private static final String CAMEL_ENGINE_RAR_DEPLOYMENT_NAME = "camel-engine-rar-deployment-commit";
+
+	/**
 	 * Since we want different scenarios, we will control arq deployment
 	 * manually
 	 * 
@@ -60,7 +70,7 @@ public class CommitTransactionTest {
 	 * 
 	 * @return rar deployment
 	 */
-	@Deployment(name = "camel-engine-rar-deployment-commit", managed = false, testable = false)
+	@Deployment(name = CAMEL_ENGINE_RAR_DEPLOYMENT_NAME, managed = false, testable = false)
 	public static Archive<?> createResourceAdapter() {
 		return IntegrationTestDeploymentFactory
 				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_SAMPLE_EDEJKET_CAMEL_RA);
@@ -72,7 +82,7 @@ public class CommitTransactionTest {
 	 * 
 	 * @return war deployment
 	 */
-	@Deployment(name = "war-with-ejb-commit", managed = false, testable = true)
+	@Deployment(name = WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME, managed = false, testable = true)
 	public static Archive<?> createWarWithEjb() {
 		return SmokeTestDeploymentFactory.createWarTestDeployment();
 	}
@@ -82,43 +92,43 @@ public class CommitTransactionTest {
 	 */
 	@Test
 	@InSequence(1)
-	@OperateOnDeployment("camel-engine-rar-deployment-commit")
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
 	public void testDeployRar() throws Exception {
 		log.info("<-----------Commit transaction test case, deploying rar-------------->");
-		this.deployer.deploy("camel-engine-rar-deployment-commit");
+		this.deployer.deploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 
 	@Test
 	@InSequence(2)
-	@OperateOnDeployment("war-with-ejb-commit")
+	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
 	public void deployWarWithEjb() throws Exception {
 		log.info("<-----------Commit transaction test case, deploying test.war-------------->");
-		this.deployer.deploy("war-with-ejb-commit");
+		this.deployer.deploy(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME);
 	}
 
 	@Test
 	@InSequence(3)
-	@OperateOnDeployment("war-with-ejb-commit")
+	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
 	public void testInjectedRarUnderTransaction() throws Exception {
-		log.info("<-----------invoking invokeRarMethodUnderTransaction-------------->");
+		log.info("<-----------Commit transaction test case, invoking invokeRarMethodUnderTransaction-------------->");
 		this.injectedEjb.invokeRarMethodUnderTransaction();
 	}
 
 	@Ignore
 	@Test
 	@InSequence(4)
-	@OperateOnDeployment("war-with-ejb-commit")
+	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
 	public void undeployWarWithEjb() throws Exception {
 		log.info("<-----------Commit transaction test case, undeploy test.war-------------->");
-		this.deployer.undeploy("war-with-ejb-commit");
+		this.deployer.undeploy(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME);
 	}
 
 	@Ignore
 	@Test
 	@InSequence(5)
-	@OperateOnDeployment("camel-engine-rar-deployment-commit")
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
 	public void undeployRar() {
 		log.info("<-----------Commit transaction test case, undeploy rar-------------->");
-		this.deployer.undeploy("camel-engine-rar-deployment-commit");
+		this.deployer.undeploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 }

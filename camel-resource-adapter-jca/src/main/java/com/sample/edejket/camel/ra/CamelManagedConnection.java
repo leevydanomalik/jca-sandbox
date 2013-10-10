@@ -255,7 +255,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 			throws XAException {
 		log.trace("commit called with xid=[{}] and onePhase=[{}]",
 				new Object[] { xid, onePhase });
-
 	}
 
 	/*

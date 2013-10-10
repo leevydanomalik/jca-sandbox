@@ -26,6 +26,11 @@ import com.sample.edejket.camel.ra.test.smoke.dependencies.SmokeTestDependencies
 public class DeploymentTest {
 
 	/**
+	 * 
+	 */
+	private static final String CAMEL_ENGINE_RAR_DEPLOYMENT_NAME = "camel-engine-rar";
+
+	/**
 	 * Since we want different scenarios, we will control arq deployment
 	 * manually
 	 * 
@@ -41,7 +46,7 @@ public class DeploymentTest {
 	 * 
 	 * @return rar deployment
 	 */
-	@Deployment(name = "camel-engine-rar", testable = false, managed = false)
+	@Deployment(name = CAMEL_ENGINE_RAR_DEPLOYMENT_NAME, testable = false, managed = false)
 	public static Archive<?> createResourceAdapter() {
 		return IntegrationTestDeploymentFactory
 				.createRARDeploymentFromMavenCoordinates(SmokeTestDependencies.COM_SAMPLE_EDEJKET_CAMEL_RA);
@@ -53,16 +58,16 @@ public class DeploymentTest {
 
 	@Test
 	@InSequence(1)
-	@OperateOnDeployment("camel-engine-rar")
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
 	public void deployResourceAdapter() throws Exception {
-		this.deployer.deploy("camel-engine-rar");
+		this.deployer.deploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 
 	@Test
 	@InSequence(2)
-	@OperateOnDeployment("camel-engine-rar")
+	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
 	public void undeployResourceAdapter() {
-		this.deployer.undeploy("camel-engine-rar");
+		this.deployer.undeploy(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME);
 	}
 
 }
