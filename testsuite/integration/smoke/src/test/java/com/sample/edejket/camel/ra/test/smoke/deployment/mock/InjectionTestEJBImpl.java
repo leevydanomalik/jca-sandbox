@@ -34,7 +34,7 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 
 	public static final String invalidRouteDef = "from(direct:customComponentRoute).to(customComp1://someCustomComponent).autoStartup(true).setId(routeName)";
 
-	public static final String contribCompRouteDef = "from(direct:customComponentRoute).to(customComp://someCustomComponent).autoStartup(true).setId(routeName)";
+	public static final String contribCompRouteDef = "from(direct:customComponentRoute).to(SampleCamelComponent://someCustomComponent).autoStartup(true).setId(abcde)";
 
 	/*
 	 * (non-Javadoc)
@@ -105,10 +105,9 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 		flow = dfContext.getDataFlowImplementation();
 		final String input = "CONTRIB COMPONENT TEST";
 		final String flowId = flow.createDataFlowAndApplyInput(
-				contribCompRouteDef, (Object) input);
+				contribCompRouteDef, input);
 		log.trace("Exiting loadCustomTestComponent() method, result=[{}]",
 				flowId);
 
 	}
-
 }
