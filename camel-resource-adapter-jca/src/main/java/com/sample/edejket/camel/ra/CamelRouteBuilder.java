@@ -15,35 +15,50 @@ import java.util.*;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CamelRouteBuilder {
+public class CamelRouteBuilder extends RouteBuilder {
 
-	private String routeId;
+	private static final Logger log = LoggerFactory
+			.getLogger(CamelRouteBuilder.class);
 
-	public RouteBuilder buildCamelRoute(final String input) {
+	protected String input;
+	protected RouteDefinition routeDefinition;
 
-		final RouteBuilder camelRouteBuilder = new RouteBuilder() {
+	protected Collection<String> splitOnDot;
+	protected Collection<String> toParts;
+	protected String fromPart;
+	protected String routeName;
 
-			@Override
-			public void configure() throws Exception {
-				/**
-				 * from(direct:customComponentRoute)
-				 * .to(customComp://someCustomComponent)
-				 * .autoStartup(true).setId(routeName);
-				 */
-				Collection<String> splitOnDot = splitOnDot(input);
-				final RouteDefinition routeDef = from(processFromPart(splitOnDot));
-				final Collection<String> toParts = processToParts(splitOnDot);
-				for (String to : toParts) {
-					routeDef.to(to);
-				}
-				final String routeName = processRouteId(splitOnDot);
-				routeDef.setId(routeName);
-				setRouteId(routeName);
-				routeDef.setAutoStartup("true");
-			}
-		};
-		return camelRouteBuilder;
+	/**
+	 * Default constructor taking route definition as argument
+	 * 
+	 * @param input
+	 *            RouteDefinition
+	 */
+	public CamelRouteBuilder(final String input) {
+		this.input = input;
+		processRouteDefinitionInput();
+	}
+
+	@Override
+	public void configure() throws Exception {
+		routeDefinition = from(this.fromPart);
+		for (String to : this.toParts) {
+			routeDefinition.to(to);
+		}
+		log.trace("routeId will be {}", this.routeName);
+		routeDefinition.setId(this.routeName);
+		routeDefinition.setAutoStartup("true");
+		log.trace("Built route is:[{}]", routeDefinition);
+	}
+
+	protected void processRouteDefinitionInput() {
+		this.splitOnDot = splitOnDot(input);
+		this.fromPart = processFromPart(splitOnDot);
+		this.toParts = processToParts(splitOnDot);
+		this.routeName = processRouteId(splitOnDot);
 	}
 
 	protected String processFromPart(final Collection<String> splitted) {
@@ -76,7 +91,7 @@ public class CamelRouteBuilder {
 
 	protected String findFromPart(final Collection<String> splitted) {
 		for (String string : splitted) {
-			if (string.contains("from")) {
+			if (string.startsWith("from")) {
 				return string;
 			}
 		}
@@ -87,7 +102,7 @@ public class CamelRouteBuilder {
 	protected Collection<String> findToPart(final Collection<String> splitted) {
 		Collection<String> toCollection = new ArrayList<>();
 		for (String line : splitted) {
-			if (line.contains("to")) {
+			if (line.startsWith("to")) {
 				toCollection.add(line);
 			}
 		}
@@ -156,18 +171,12 @@ public class CamelRouteBuilder {
 	}
 
 	/**
+	 * Return Id of this route
+	 * 
 	 * @return the routeId
 	 */
-	protected String getRouteId() {
-		return routeId;
-	}
-
-	/**
-	 * @param routeId
-	 *            the routeId to set
-	 */
-	protected void setRouteId(final String routeId) {
-		this.routeId = routeId;
+	public String getRouteId() {
+		return this.routeName;
 	}
 
 }

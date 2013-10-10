@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module xmlns="urn:jboss:module:1.1"
-	name="com.sample.edejket.camel.contrib">
+<module xmlns="urn:jboss:module:1.1" name="com.sample.edejket.camel.contrib">
 	<resources>
 	</resources>
 
 	<dependencies>
-		<module name="com.sample.edejket.camel.samplecontrib.customcomp" export="true" services="export"/>
+		<module name="org.apache.camel" export="true"/>
+		<module name="com.sample.edejket.camel.samplecontrib.customcomp"
+			export="true" services="export">
+		</module>
 	</dependencies>
 </module>
