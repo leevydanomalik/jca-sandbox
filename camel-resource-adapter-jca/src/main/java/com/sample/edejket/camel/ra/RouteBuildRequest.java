@@ -14,35 +14,20 @@ package com.sample.edejket.camel.ra;
 import javax.resource.ResourceException;
 
 import org.apache.camel.CamelContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.camel.builder.RouteBuilder;
 
-/**
- * Build a route using given route definition in given camel context
- * 
- * @author edejket
- * 
- */
 public class RouteBuildRequest extends CamelRequest {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(RouteBuildRequest.class);
-
-	private final String routeDef;
-	private final CamelRouteBuilder routeBuilder;
+	protected String routeId;
+	protected String routeDef;
 
 	/**
-	 * RouteBuildRequest constructor
-	 * 
 	 * @param input
-	 *            route definition
 	 * @param ctx
-	 *            CamelContext
 	 */
 	public RouteBuildRequest(final String routeDef, final CamelContext ctx) {
 		super(ctx);
 		this.routeDef = routeDef;
-		this.routeBuilder = new CamelRouteBuilder(this.routeDef);
 	}
 
 	/*
@@ -53,23 +38,20 @@ public class RouteBuildRequest extends CamelRequest {
 	 */
 	@Override
 	public void processRequest() throws ResourceException {
+		CamelRouteBuilder routeBuilder = new CamelRouteBuilder();
+		final RouteBuilder builder = routeBuilder.buildCamelRoute(routeDef);
+		this.routeId = routeBuilder.getRouteId();
 		try {
-			this.ctx.addRoutes(this.routeBuilder);
-			log.trace("Created route will have id=[{}]",
-					this.routeBuilder.getRouteId());
+
+			this.ctx.addRoutes(builder);
 		} catch (Exception e) {
 			throw new ResourceException(e);
 		}
 
 	}
 
-	/**
-	 * Get id of this route
-	 * 
-	 * @return id of the route
-	 */
 	public final String getRouteId() {
-		return this.routeBuilder.getRouteId();
+		return routeId;
 	}
 
 }

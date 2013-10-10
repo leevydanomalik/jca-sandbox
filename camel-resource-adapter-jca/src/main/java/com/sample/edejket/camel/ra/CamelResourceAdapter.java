@@ -21,9 +21,6 @@
  */
 package com.sample.edejket.camel.ra;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
-
 import javax.naming.InitialContext;
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
@@ -33,7 +30,6 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Component;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +57,6 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	private CamelContext camelContext;
 
 	private WorkManager workManager;
-
-	private static final String CAMEL_SETTER = "setCamelContext";
 
 	/**
 	 * Default constructor
@@ -118,28 +112,22 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
 		this.xaTerminator = ctx.getXATerminator();
 		this.workManager = ctx.getWorkManager();
+		final ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
+
+			Thread.currentThread().setContextClassLoader(
+					this.getClass().getClassLoader());
 			this.camelContext = new DefaultCamelContext(new InitialContext());
+			this.camelContext.setApplicationContextClassLoader(Thread
+					.currentThread().getContextClassLoader());
+			log.trace("ApplicationContextClassLoader is {}",
+					this.camelContext.getApplicationContextClassLoader());
 			this.camelContext.start();
-			loadContribComponents(this.camelContext);
 		} catch (Exception ne) {
 			log.error("Error while trying to start camel context:", ne);
 			throw new ResourceAdapterInternalException(ne);
-		}
-	}
-
-	private void loadContribComponents(final CamelContext ctx) {
-		log.trace("Loading contrib components into camel context=[{}]", ctx);
-		final ServiceLoader<Component> componentLoader = ServiceLoader
-				.load(Component.class);
-		final Iterator<Component> iter = componentLoader.iterator();
-		while (iter.hasNext()) {
-			Component comp = iter.next();
-			log.trace("Found contrib component=[{}]", comp.toString());
-			comp.setCamelContext(ctx);
-			ctx.addComponent(comp.getClass().getSimpleName(), comp);
-			log.trace("Added contrib component {} using prefix {}",
-					comp.toString(), comp.getClass().getSimpleName());
+		} finally {
+			Thread.currentThread().setContextClassLoader(cl);
 		}
 	}
 
@@ -148,10 +136,9 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	 * application server shutdown.
 	 */
 	public void stop() {
-		log.trace("stopping camel context {}", this.camelContext);
+		log.trace("stop()");
 		try {
 			this.camelContext.stop();
-			log.trace("Camel context stopped...");
 		} catch (Exception e) {
 			log.error("Error while trying to stop camel context:", e);
 		}
