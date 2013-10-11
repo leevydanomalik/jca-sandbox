@@ -92,7 +92,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	public Object getConnection(final Subject subject,
 			final ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 		log.trace("getConnection()");
-		flow = new DataFlowImpl(this, mcf);
+		flow = new DataFlowImpl(this);
 		return flow;
 	}
 
@@ -403,6 +403,21 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 
 	public CamelContext getCamelContext() {
 		return this.camelRa.getCamelContext();
+	}
+
+	/**
+	 * @return the mcf
+	 */
+	public CamelManagedConnectionFactory getMcf() {
+		return mcf;
+	}
+
+	/**
+	 * @param mcf
+	 *            the mcf to set
+	 */
+	public void setMcf(final CamelManagedConnectionFactory mcf) {
+		this.mcf = mcf;
 	}
 
 }

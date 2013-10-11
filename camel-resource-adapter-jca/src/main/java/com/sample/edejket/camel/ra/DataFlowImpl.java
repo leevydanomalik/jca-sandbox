@@ -39,9 +39,6 @@ public class DataFlowImpl implements DataFlow {
 	/** ManagedConnection */
 	private CamelManagedConnection mc;
 
-	/** ManagedConnectionFactory */
-	private CamelManagedConnectionFactory mcf;
-
 	/**
 	 * Default constructor
 	 * 
@@ -50,10 +47,8 @@ public class DataFlowImpl implements DataFlow {
 	 * @param mcf
 	 *            CamelManagedConnectionFactory
 	 */
-	public DataFlowImpl(final CamelManagedConnection mc,
-			final CamelManagedConnectionFactory mcf) {
+	public DataFlowImpl(final CamelManagedConnection mc) {
 		this.mc = mc;
-		this.mcf = mcf;
 	}
 
 	/**

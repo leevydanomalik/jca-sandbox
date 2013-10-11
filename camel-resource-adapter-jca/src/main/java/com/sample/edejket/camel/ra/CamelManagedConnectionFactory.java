@@ -125,15 +125,17 @@ public class CamelManagedConnectionFactory implements ManagedConnectionFactory,
 	 * @return ManagedConnection if resource adapter finds an acceptable match
 	 *         otherwise null
 	 */
-	public ManagedConnection matchManagedConnections(final Set connectionSet,
+	public ManagedConnection matchManagedConnections(
+			@SuppressWarnings("rawtypes") final Set connectionSet,
 			final Subject subject, final ConnectionRequestInfo cxRequestInfo)
 			throws ResourceException {
 		log.trace("matchManagedConnections({}, {}, {})", new Object[] {
 				connectionSet, subject, cxRequestInfo });
 		ManagedConnection result = null;
+		@SuppressWarnings("rawtypes")
 		Iterator it = connectionSet.iterator();
 		while (result == null && it.hasNext()) {
-			ManagedConnection mc = (ManagedConnection) it.next();
+			final ManagedConnection mc = (ManagedConnection) it.next();
 			if (mc instanceof CamelManagedConnection) {
 				if (((CamelManagedConnection) mc).getFlow() != null) {
 					result = mc;
