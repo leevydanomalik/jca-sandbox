@@ -66,7 +66,7 @@ public class SampleComponentProducer extends DefaultProducer {
 				"SimpleCamelComponent is now handling the incoming exchange with body {}...",
 				exchange.getIn().getBody());
 		if (exchange.getIn().getBody() == null) {
-			throw new Exception("Input is null - Rollback required...");
+			throw new RuntimeException("Input is null - Rollback required...");
 		} else {
 			log.trace("Input is not null - Will be commited...");
 		}
