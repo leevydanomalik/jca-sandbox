@@ -392,7 +392,9 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	}
 
 	public void processRequest(final CamelRequest request) throws Exception {
-		getWorkManager().doWork(request);
+		request.run();
+		request.release();
+		// getWorkManager().doWork(request);
 	}
 
 	private WorkManager getWorkManager() {

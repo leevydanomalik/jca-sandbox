@@ -110,7 +110,7 @@ public class RollbackTransactionTest {
 		this.injectedEjb.buildFlow(invalidRouteDef);
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	@InSequence(4)
 	@OperateOnDeployment("war-with-ejb-rollback")
 	public void testBuildRouteUnderTxAndRollback_WhenRouteDefValid_InputIsInvalid()
