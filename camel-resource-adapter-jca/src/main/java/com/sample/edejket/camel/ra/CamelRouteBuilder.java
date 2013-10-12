@@ -14,6 +14,7 @@ package com.sample.edejket.camel.ra;
 import java.util.*;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.PolicyDefinition;
 import org.apache.camel.model.RouteDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,10 @@ public class CamelRouteBuilder extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 		routeDefinition = from(this.fromPart);
+		final PolicyDefinition policyDef = routeDefinition
+				.transacted("PROPAGATION_REQUIRED");
 		for (String to : this.toParts) {
-			routeDefinition.to(to);
+			policyDef.to(to);
 		}
 		log.trace("routeId will be {}", this.routeName);
 		routeDefinition.setId(this.routeName);

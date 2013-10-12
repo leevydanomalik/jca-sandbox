@@ -274,7 +274,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	 */
 	public void forget(final Xid xid) throws XAException {
 		log.trace("Forget called with xid=[{}]", xid);
-
 	}
 
 	/*
@@ -350,7 +349,6 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	public void start(final Xid xid, final int flags) throws XAException {
 		log.trace("start called for xid=[{}] and flags=[{}]", new Object[] {
 				xid, flags });
-
 	}
 
 	/*
@@ -364,7 +362,7 @@ public class CamelManagedConnection implements ManagedConnection, XAResource,
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc) des rodjoj *
 	 * 
 	 * @see javax.resource.spi.LocalTransaction#begin()
 	 */

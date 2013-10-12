@@ -25,18 +25,22 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.resource.ResourceException;
 import javax.resource.spi.*;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.resource.spi.work.WorkManager;
+import javax.transaction.TransactionManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.xa.XAResource;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Component;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.spring.spi.SpringTransactionPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  * CamelResourceAdapter
@@ -61,6 +65,8 @@ public class CamelResourceAdapter implements ResourceAdapter,
 	private CamelContext camelContext;
 
 	private WorkManager workManager;
+
+	private TransactionManager txMgr;
 
 	/**
 	 * Default constructor
@@ -116,14 +122,34 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		this.txRegistry = ctx.getTransactionSynchronizationRegistry();
 		this.xaTerminator = ctx.getXATerminator();
 		this.workManager = ctx.getWorkManager();
+		this.txMgr = getTxMgr();
 		try {
-			this.camelContext = new DefaultCamelContext(new InitialContext());
+			final JtaTransactionManager jtaMgr = new JtaTransactionManager(
+					this.txMgr);
+			final InitialContext jndiCtx = new InitialContext();
+			configureCamelTransactions(jndiCtx, jtaMgr);
+			this.camelContext = new DefaultCamelContext(jndiCtx);
 			this.camelContext.start();
 			loadContribComponents(this.camelContext);
 		} catch (Exception ne) {
 			log.error("Error while trying to start camel context:", ne);
 			throw new ResourceAdapterInternalException(ne);
 		}
+	}
+
+	private void configureCamelTransactions(final InitialContext ctx,
+			final JtaTransactionManager jtaTxMgr) throws Exception {
+		final SpringTransactionPolicy requiresPolicy = new SpringTransactionPolicy();
+		requiresPolicy.setPropagationBehaviorName("PROPAGATION_REQUIRED");
+		requiresPolicy.setTransactionManager(jtaTxMgr);
+		ctx.bind("PROPAGATION_REQUIRED", requiresPolicy);
+
+		final SpringTransactionPolicy requiresNewPolicy = new SpringTransactionPolicy();
+		requiresNewPolicy
+				.setPropagationBehaviorName("PROPAGATION_REQUIRES_NEW");
+		requiresNewPolicy.setTransactionManager(jtaTxMgr);
+		ctx.bind("PROPAGATION_REQUIRES_NEW", requiresNewPolicy);
+
 	}
 
 	private void loadContribComponents(final CamelContext ctx) {
@@ -139,6 +165,20 @@ public class CamelResourceAdapter implements ResourceAdapter,
 			log.trace("Added contrib component {} using prefix {}",
 					comp.toString(), comp.getClass().getSimpleName());
 		}
+	}
+
+	private TransactionManager getTxMgr() {
+		if (txMgr == null) {
+			InitialContext context = null;
+			try {
+				context = new InitialContext();
+				txMgr = (TransactionManager) context
+						.lookup("java:jboss/TransactionManager");
+			} catch (NamingException e) {
+				log.error("Cannot get transaction manager", e);
+			}
+		}
+		return txMgr;
 	}
 
 	/**
@@ -218,6 +258,23 @@ public class CamelResourceAdapter implements ResourceAdapter,
 		}
 		boolean result = true;
 		return result;
+	}
+
+	/**
+	 * @param txRegistry
+	 *            the txRegistry to set
+	 */
+	public void setTxRegistry(
+			final TransactionSynchronizationRegistry txRegistry) {
+		this.txRegistry = txRegistry;
+	}
+
+	/**
+	 * @param txMgr
+	 *            the txMgr to set
+	 */
+	public void setTxMgr(final TransactionManager txMgr) {
+		this.txMgr = txMgr;
 	}
 
 	/**

@@ -17,9 +17,8 @@ import javax.resource.ResourceException;
 @Local
 public interface InjectionTestEJB {
 
-	void invokeRarMethodUnderTransaction();
+	void buildFlow(final String definition);
 
-	void invokeRarMethodCauseRollback();
-
-	void loadCustomTestComponent() throws ResourceException;
+	void buildFlowAndInvokeFlow(final String flowDefinition, final String input)
+			throws ResourceException;
 }

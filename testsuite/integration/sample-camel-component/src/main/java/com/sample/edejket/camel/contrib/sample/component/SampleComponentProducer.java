@@ -35,7 +35,7 @@ public class SampleComponentProducer extends DefaultProducer {
 		return false;
 	}
 
-	private static final transient Logger LOG = LoggerFactory
+	private static final transient Logger log = LoggerFactory
 			.getLogger(SampleComponentProducer.class);
 
 	private final SampleComponentEndpoint endpoint;
@@ -48,7 +48,7 @@ public class SampleComponentProducer extends DefaultProducer {
 	public SampleComponentProducer(final SampleComponentEndpoint endpoint) {
 		super(endpoint);
 		this.endpoint = endpoint;
-		LOG.debug("SampleComponentProducer constructor for endpoint {}",
+		log.trace("SampleComponentProducer constructor for endpoint {}",
 				this.endpoint.getEndpointUri());
 	}
 
@@ -62,7 +62,14 @@ public class SampleComponentProducer extends DefaultProducer {
 	 */
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		log.debug("SimpleCamelComponent is now handling the incoming exchange...");
+		log.trace(
+				"SimpleCamelComponent is now handling the incoming exchange with body {}...",
+				exchange.getIn().getBody());
+		if (exchange.getIn().getBody() == null) {
+			throw new Exception("Input is null - Rollback required...");
+		} else {
+			log.trace("Input is not null - Will be commited...");
+		}
 	}
 
 }

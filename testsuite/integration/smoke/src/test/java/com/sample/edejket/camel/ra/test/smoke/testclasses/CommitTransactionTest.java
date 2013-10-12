@@ -41,12 +41,22 @@ public class CommitTransactionTest {
 	/**
 	 * 
 	 */
+	private static final String VALID_INPUT = "Some nice input";
+
+	/**
+	 * 
+	 */
 	private static final String WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME = "war-with-ejb-commit";
 
 	/**
 	 * 
 	 */
 	private static final String CAMEL_ENGINE_RAR_DEPLOYMENT_NAME = "camel-engine-rar-deployment-commit";
+
+	/**
+	 * 
+	 */
+	private static final String contribCompRouteDef = "from(direct:customComponentRoute).to(SampleCamelComponent://someCustomComponent).autoStartup(true).setId(abcde)";
 
 	/**
 	 * Since we want different scenarios, we will control arq deployment
@@ -109,14 +119,29 @@ public class CommitTransactionTest {
 	@Test
 	@InSequence(3)
 	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
-	public void testInjectedRarUnderTransaction() throws Exception {
-		log.info("<-----------Commit transaction test case, invoking invokeRarMethodUnderTransaction-------------->");
-		this.injectedEjb.invokeRarMethodUnderTransaction();
+	public void testBuildRouteUnderTxAndCommit_WhenRouteDefValid()
+			throws Exception {
+		log.info(
+				"<-----------Commit transaction test case, invoking buildFlow({})-------------->",
+				contribCompRouteDef);
+		this.injectedEjb.buildFlow(contribCompRouteDef);
+	}
+
+	@Test
+	@InSequence(4)
+	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
+	public void testBuildRouteUnderTxAndCommit_WhenRouteDefValid_WhenInputValid()
+			throws Exception {
+		log.info(
+				"<-----------Commit transaction test case, invoking buildFlowAndInvokeFlow({},{})-------------->",
+				contribCompRouteDef, VALID_INPUT);
+		this.injectedEjb.buildFlowAndInvokeFlow(contribCompRouteDef,
+				VALID_INPUT);
 	}
 
 	@Ignore
 	@Test
-	@InSequence(4)
+	@InSequence(5)
 	@OperateOnDeployment(WAR_WITH_EJB_COMMIT_DEPLOYMENT_NAME)
 	public void undeployWarWithEjb() throws Exception {
 		log.info("<-----------Commit transaction test case, undeploy test.war-------------->");
@@ -125,7 +150,7 @@ public class CommitTransactionTest {
 
 	@Ignore
 	@Test
-	@InSequence(5)
+	@InSequence(6)
 	@OperateOnDeployment(CAMEL_ENGINE_RAR_DEPLOYMENT_NAME)
 	public void undeployRar() {
 		log.info("<-----------Commit transaction test case, undeploy rar-------------->");

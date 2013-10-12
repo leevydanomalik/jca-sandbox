@@ -55,6 +55,9 @@ public class RollbackTransactionTest {
 	private static final Logger log = LoggerFactory
 			.getLogger(RollbackTransactionTest.class);
 
+	private static final String contribCompRouteDef = "from(direct:customComponentRoute).to(SampleCamelComponent://someCustomComponent).autoStartup(true).setId(abcde)";
+	private static final String invalidRouteDef = "from(direct:customComponentRoute).to(customComp1://someCustomComponent).autoStartup(true).setId(routeName)";
+
 	/**
 	 * Create rar deployment from built code
 	 * 
@@ -99,14 +102,28 @@ public class RollbackTransactionTest {
 	@Test(expected = RuntimeException.class)
 	@InSequence(3)
 	@OperateOnDeployment("war-with-ejb-rollback")
-	public void testInjectedRarUnderTransactionWithRollback() throws Exception {
-		log.info("<-----------Rollback transaction test case, invoke invokeRarMethodCauseRollback()-------------->");
-		this.injectedEjb.invokeRarMethodCauseRollback();
+	public void testBuildRouteUnderTxAndRollback_WhenRouteDefInvalid()
+			throws Exception {
+		log.info(
+				"<-----------Rollback transaction test case, invoke buildFlow({})-------------->",
+				invalidRouteDef);
+		this.injectedEjb.buildFlow(invalidRouteDef);
+	}
+
+	@Test(expected = RuntimeException.class)
+	@InSequence(4)
+	@OperateOnDeployment("war-with-ejb-rollback")
+	public void testBuildRouteUnderTxAndRollback_WhenRouteDefValid_InputIsInvalid()
+			throws Exception {
+		log.info(
+				"<-----------Rollback transaction test case, invoke buildFlowAndInvokeFlow({},{})-------------->",
+				contribCompRouteDef, null);
+		this.injectedEjb.buildFlowAndInvokeFlow(contribCompRouteDef, null);
 	}
 
 	@Ignore
 	@Test
-	@InSequence(4)
+	@InSequence(5)
 	@OperateOnDeployment("war-with-ejb-rollback")
 	public void undeployWarWithEjb() throws Exception {
 		log.info("<-----------Rollback transaction test case, undeploy test.war-------------->");
@@ -115,7 +132,7 @@ public class RollbackTransactionTest {
 
 	@Ignore
 	@Test
-	@InSequence(5)
+	@InSequence(6)
 	@OperateOnDeployment("camel-engine-rar-deployment-rollback")
 	public void undeployRar() {
 		log.info("<-----------Rollback transaction test case, undeploy rar-------------->");

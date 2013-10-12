@@ -32,15 +32,11 @@ import com.sample.edejket.camel.ra.test.smoke.deployment.mock.InjectionTestEJB;
 @RunWith(Arquillian.class)
 public class ContribComponentLoadingTest {
 
-	/**
-	 * 
-	 */
 	private static final String CAMEL_ENGINE_RAR_DEPLOYMENT_NAME = "camel-engine-rar";
 
-	/**
-	 * 
-	 */
 	private static final String WAR_WITH_EJB_DEPLOYMENT_NAME = "war-with-ejb-commit";
+
+	private static final String contribCompRouteDef = "from(direct:customComponentRoute).to(SampleCamelComponent://someCustomComponent).autoStartup(true).setId(abcde)";
 
 	/**
 	 * Since we want different scenarios, we will control arq deployment
@@ -105,7 +101,7 @@ public class ContribComponentLoadingTest {
 	@OperateOnDeployment(WAR_WITH_EJB_DEPLOYMENT_NAME)
 	public void testLoadCustomComponent() throws Exception {
 		log.info("<-----------ContribComponentLoadingTest test case invoking loadCustomComponent-------------->");
-		this.injectedEjb.loadCustomTestComponent();
+		this.injectedEjb.buildFlow(contribCompRouteDef);
 	}
 
 	@Ignore
