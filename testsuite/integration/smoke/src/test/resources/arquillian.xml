@@ -18,6 +18,9 @@
 			-Djboss.socket.binding.port-offset=500 
 			-Djboss.node.name=RAR_TRANSACT_SMOKE-TEST 
 			-Dorg.jboss.as.logging.per-deployment=false
+			-Djboss.node.name=NODE1
+			-Djboss.tx.node.id=NODE1
+			-Dcom.arjuna.orbportability.initialReferencesRoot=${jboss.home}
 			</property>
 			<!-- incremented by 500 from 9999 -->
 			<property name="managementPort">10499</property>
