@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module xmlns="urn:jboss:module:1.1"
-	name="org.apache.camel">
+<module xmlns="urn:jboss:module:1.1" name="org.apache.camel">
 	<resources>
+		<resource-root path="aopalliance-1.0.jar" />
+		<resource-root path="commons-logging-1.1.1.jar" />
+		<resource-root path="camel-spring-2.11.0.jar" />
+		<resource-root path="spring-aop-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-asm-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-beans-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-context-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-core-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-expression-3.1.4.RELEASE.jar" />
+		<resource-root path="spring-tx-3.1.4.RELEASE.jar" />
+		<resource-root path="jaxb-impl-2.2.6.jar" />
 		<resource-root path="camel-core-2.11.0.jar" />
 	</resources>
 
 	<dependencies>
-		<module name="org.slf4j" export="true"/>
-		<module name="javax.api" export="true"/>
+		<module name="org.slf4j" export="true" />
+		<module name="javax.api" export="true" />
+		<module name="javax.transaction.api" export="true"/>
 	</dependencies>
 </module>
