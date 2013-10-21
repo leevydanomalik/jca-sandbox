@@ -11,6 +11,10 @@
  *----------------------------------------------------------------------------*/
 package com.sample.edejket.camel.contrib.sample.component;
 
+import javax.naming.InitialContext;
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 import org.slf4j.Logger;
@@ -52,6 +56,13 @@ public class SampleComponentProducer extends DefaultProducer {
 				this.endpoint.getEndpointUri());
 	}
 
+	private Transaction getActiveTransaction() throws Exception {
+		InitialContext ctx = new InitialContext();
+		TransactionManager txMgr = (TransactionManager) ctx
+				.lookup("java:jboss/TransactionManager");
+		return txMgr.getTransaction();
+	}
+
 	/**
 	 * All the magic should happen in this method, we process the incoming
 	 * exchange and pass the result to the next element of the route.
@@ -65,6 +76,8 @@ public class SampleComponentProducer extends DefaultProducer {
 		log.trace(
 				"SimpleCamelComponent is now handling the incoming exchange with body {}...",
 				exchange.getIn().getBody());
+		log.trace("<-------------- {} -------------------->",
+				getActiveTransaction());
 		if (exchange.getIn().getBody() == null) {
 			throw new RuntimeException("Input is null - Rollback required...");
 		} else {

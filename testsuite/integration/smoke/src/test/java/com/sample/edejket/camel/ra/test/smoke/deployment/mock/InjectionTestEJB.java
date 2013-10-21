@@ -20,5 +20,5 @@ public interface InjectionTestEJB {
 	void buildFlow(final String definition);
 
 	void buildFlowAndInvokeFlow(final String flowDefinition, final String input)
-			throws ResourceException;
+			throws ResourceException, Exception;
 }

@@ -13,7 +13,10 @@ package com.sample.edejket.camel.ra.test.smoke.deployment.mock;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
+import javax.naming.InitialContext;
 import javax.resource.ResourceException;
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +60,13 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 
 	}
 
+	private Transaction getActiveTransaction() throws Exception {
+		InitialContext ctx = new InitialContext();
+		TransactionManager txMgr = (TransactionManager) ctx
+				.lookup("java:jboss/TransactionManager");
+		return txMgr.getTransaction();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,9 +77,11 @@ public class InjectionTestEJBImpl implements InjectionTestEJB {
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void buildFlowAndInvokeFlow(final String flowDefinition,
-			final String input) throws ResourceException {
+			final String input) throws ResourceException, Exception {
 		DataFlow flow = null;
 		log.trace("<------------------Called buildFlowAndInvokeFlow() method--------------->");
+		log.trace("<---------------------{} ------------------>",
+				getActiveTransaction());
 		flow = dfContext.getDataFlowImplementation();
 		final String flowId = flow.createDataFlowAndApplyInput(flowDefinition,
 				input);
