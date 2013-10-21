@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/connector_1_6.xsd"
+	version="1.6" metadata-complete="true">
+	<vendor-name>Ericsson LMI</vendor-name>
+	<eis-type>Camel RA</eis-type>
+	<resourceadapter-version>3.0.2-SNAPSHOT</resourceadapter-version>
+	<resourceadapter>
+		<resourceadapter-class>com.sample.edejket.camel.ra.CamelResourceAdapter
+		</resourceadapter-class>
+		<outbound-resourceadapter>
+				<transaction-support>XATransaction</transaction-support>
+				<reauthentication-support>false</reauthentication-support>
+			<connection-definition>
+				<managedconnectionfactory-class>com.sample.edejket.camel.ra.CamelManagedConnectionFactory
+				</managedconnectionfactory-class>
+				<connectionfactory-interface>com.sample.edejket.camel.ra.DataFlowContextFactory
+				</connectionfactory-interface>
+				<connectionfactory-impl-class>com.sample.edejket.camel.ra.CamelContextFactoryImpl
+				</connectionfactory-impl-class>
+				<connection-interface>com.sample.edejket.camel.ra.DataFlow
+				</connection-interface>
+				<connection-impl-class>com.sample.edejket.camel.ra.DataFlowImpl
+				</connection-impl-class>
+			</connection-definition>
+		</outbound-resourceadapter>
+	</resourceadapter>
+</connector>
