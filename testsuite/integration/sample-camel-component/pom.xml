@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.sample.edejket.camel.ra</groupId>
-    <artifactId>integration</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>sample-camel-component</artifactId>
-  <name>sample-camel-component</name>
-  
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.sample.edejket.camel.ra</groupId>
+		<artifactId>integration</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>sample-camel-component</artifactId>
+	<name>sample-camel-component</name>
+
+	<build>
 	</build>
 	<dependencies>
 		<dependency>
@@ -20,13 +21,13 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.ironjacamar</groupId>
 			<artifactId>ironjacamar-spec-api</artifactId>
 			<version>${version.org.jboss.ironjacamar}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 	</dependencies>
 </project>

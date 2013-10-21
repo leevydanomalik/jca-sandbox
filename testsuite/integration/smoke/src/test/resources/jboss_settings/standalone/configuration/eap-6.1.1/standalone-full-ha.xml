@@ -247,10 +247,11 @@
 			</cache-container>
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:jacorb:1.3">
-			<orb socket-binding="jacorb" ssl-socket-binding="jacorb-ssl" name="${jboss.node.name}">
+			<orb socket-binding="jacorb" ssl-socket-binding="jacorb-ssl"
+				name="${jboss.node.name}">
 				<initializers transactions="on" security="identity" />
 			</orb>
-			 <naming root-context="${jboss.node.name}/Naming/root" />
+			<naming root-context="${jboss.node.name}/Naming/root" />
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:jaxr:1.1">
 			<connection-factory jndi-name="java:jboss/jaxr/ConnectionFactory" />
@@ -479,7 +480,7 @@
 			<recovery-environment socket-binding="txn-recovery-environment"
 				status-socket-binding="txn-status-manager" />
 			<coordinator-environment default-timeout="300" />
-		<jts />
+			<jts />
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:web:1.4"
 			default-virtual-server="default-host" native="false">

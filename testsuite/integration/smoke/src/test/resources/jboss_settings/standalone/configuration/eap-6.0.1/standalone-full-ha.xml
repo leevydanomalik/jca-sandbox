@@ -345,7 +345,7 @@
 				<journal-file-size>102400</journal-file-size>
 				<journal-min-files>2</journal-min-files>
 
-				
+
 
 				<connectors>
 					<netty-connector name="netty" socket-binding="messaging" />

@@ -10,8 +10,8 @@
 		<resourceadapter-class>com.sample.edejket.camel.ra.CamelResourceAdapter
 		</resourceadapter-class>
 		<outbound-resourceadapter>
-				<transaction-support>XATransaction</transaction-support>
-				<reauthentication-support>false</reauthentication-support>
+			<transaction-support>XATransaction</transaction-support>
+			<reauthentication-support>false</reauthentication-support>
 			<connection-definition>
 				<managedconnectionfactory-class>com.sample.edejket.camel.ra.CamelManagedConnectionFactory
 				</managedconnectionfactory-class>

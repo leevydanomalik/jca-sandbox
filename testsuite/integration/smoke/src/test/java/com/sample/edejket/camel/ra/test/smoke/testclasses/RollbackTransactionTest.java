@@ -55,7 +55,7 @@ public class RollbackTransactionTest {
 	private static final Logger log = LoggerFactory
 			.getLogger(RollbackTransactionTest.class);
 
-	private static final String contribCompRouteDef = "from(direct:customComponentRoute).to(SampleCamelComponent://someCustomComponent).autoStartup(true).setId(abcde)";
+    private static final String contribCompRouteDef = "from(direct:customComponentRoute).to(customComp://someCustomComponent).autoStartup(true).setId(abcde)";
 	private static final String invalidRouteDef = "from(direct:customComponentRoute).to(customComp1://someCustomComponent).autoStartup(true).setId(routeName)";
 
 	/**

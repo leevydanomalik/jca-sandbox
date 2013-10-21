@@ -362,6 +362,27 @@
 									</resources>
 								</configuration>
 							</execution>
+							<!-- patch eap 6.0.1 with modules patch -->
+							<execution>
+								<id>apply patch BZ1020041 to EAP 6.0.1</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${jboss.home}/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/test/resources/jboss_patch/6.0.1/BZ1020041/</directory>
+											<includes>
+												<include>jboss-modules.jar</include>
+											</includes>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
 					<plugin>

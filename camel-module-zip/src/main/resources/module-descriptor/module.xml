@@ -18,6 +18,6 @@
 	<dependencies>
 		<module name="org.slf4j" export="true" />
 		<module name="javax.api" export="true" />
-		<module name="javax.transaction.api" export="true"/>
+		<module name="javax.transaction.api" export="true" />
 	</dependencies>
 </module>
