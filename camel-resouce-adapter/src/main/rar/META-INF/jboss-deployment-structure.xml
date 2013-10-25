@@ -1,7 +1,7 @@
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
 	<deployment>
 		<dependencies>
-			<module name="org.apache.camel" export="true" />
+			<module name="org.apache.camel" export="true" services="import"/>
 			<module name="com.sample.edejket.camel.ra.api" />
 			<module name="com.sample.edejket.camel.contrib" services="import"/>
 		</dependencies>

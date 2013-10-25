@@ -77,6 +77,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
      * @throws ResourceException
      *             generic exception
      */
+    @Override
     public void endpointActivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) throws ResourceException {
         log.trace("endpointActivation({}, {})", new Object[] { endpointFactory, spec });
 
@@ -90,6 +91,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
      * @param spec
      *            An activation spec JavaBean instance.
      */
+    @Override
     public void endpointDeactivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) {
         log.trace("endpointDeactivation({})", endpointFactory);
 
@@ -103,6 +105,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
      * @throws ResourceAdapterInternalException
      *             indicates bootstrap failure.
      */
+    @Override
     public void start(final BootstrapContext ctx) throws ResourceAdapterInternalException {
         log.trace("start()");
         this.txRegistry = ctx.getTransactionSynchronizationRegistry();
@@ -114,10 +117,12 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
             final JndiContext jndiCtx = new JndiContext();
             configureCamelTransactions(jndiCtx, jtaMgr);
             this.camelContext = new DefaultCamelContext(jndiCtx);
+            this.camelContext.setClassResolver(new JCAClassResolver(this.getClass().getClassLoader()));
             this.camelContext.start();
+            this.camelContext.setClassResolver(new JCAClassResolver(this.getClass().getClassLoader()));
             //Let's use the patch and let camel find all META-INF/org/apache/camel/component/*
             //loadContribComponents(this.camelContext);
-        } catch (Exception ne) {
+        } catch (final Exception ne) {
             log.error("Error while trying to start camel context:", ne);
             throw new ResourceAdapterInternalException(ne);
         }
@@ -141,7 +146,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
         final ServiceLoader<Component> componentLoader = ServiceLoader.load(Component.class);
         final Iterator<Component> iter = componentLoader.iterator();
         while (iter.hasNext()) {
-            Component comp = iter.next();
+            final Component comp = iter.next();
             log.trace("Found contrib component=[{}]", comp.toString());
             comp.setCamelContext(ctx);
             ctx.addComponent(comp.getClass().getSimpleName(), comp);
@@ -155,7 +160,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
             try {
                 context = new InitialContext();
                 txMgr = (TransactionManager) context.lookup("java:jboss/TransactionManager");
-            } catch (NamingException e) {
+            } catch (final NamingException e) {
                 log.error("Cannot get transaction manager", e);
             }
         }
@@ -165,12 +170,13 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
     /**
      * This is called when a resource adapter instance is undeployed or during application server shutdown.
      */
+    @Override
     public void stop() {
         log.trace("stopping camel context {}", this.camelContext);
         try {
             this.camelContext.stop();
             log.trace("Camel context stopped...");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Error while trying to stop camel context:", e);
         }
 
@@ -185,6 +191,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
      *             generic exception
      * @return An array of XAResource objects
      */
+    @Override
     public XAResource[] getXAResources(final ActivationSpec[] specs) throws ResourceException {
         log.trace("getXAResources({})", specs.toString());
         return null;
@@ -234,7 +241,7 @@ public class CamelResourceAdapter implements ResourceAdapter, java.io.Serializab
         if (!(other instanceof CamelResourceAdapter)) {
             return false;
         }
-        boolean result = true;
+        final boolean result = true;
         return result;
     }
 
